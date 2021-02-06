@@ -23,7 +23,7 @@ namespace CPU6502Emulator
     public class CPU
     {
         // Memory
-        public Memory memory;
+        private Memory memory;
 
         // Registers
         public ushort pc;
