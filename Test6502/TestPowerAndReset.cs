@@ -1,7 +1,7 @@
 ﻿using CPU6502Emulator;
 using NUnit.Framework;
 
-namespace Test_6504
+namespace Test6502
 {
     [TestFixture]
     public class TestPowerAndReset

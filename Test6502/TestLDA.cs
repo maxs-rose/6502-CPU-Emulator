@@ -1,11 +1,10 @@
-﻿using System.Xml.Schema;
-using CPU6502Emulator;
+﻿using CPU6502Emulator;
 using NUnit.Framework;
 
-namespace Test_6504
+namespace Test6502
 {
     [TestFixture]
-    public class TestLoad
+    public class TestLDA
     {
         private CPU cpu;
         
