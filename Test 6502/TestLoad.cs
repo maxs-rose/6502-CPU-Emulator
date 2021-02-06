@@ -17,6 +17,12 @@ namespace Test_6504
         }
 
         [Test]
+        public void FalingTest()
+        {
+            Assert.True(false);
+        }
+
+        [Test]
         public void LoadImmediatePositive()
         {
             cpu.memory[0x0100] = (byte)OpCode.LDAI;
