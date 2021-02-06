@@ -95,6 +95,12 @@ namespace CPU6502Emulator
             opcodeAray[(int) OpCode.INCZX] = INCZX;
             opcodeAray[(int) OpCode.INCA] = INCA;
             opcodeAray[(int) OpCode.INCX] = INCX;
+            
+            // INX
+            opcodeAray[(int) OpCode.INX] = INX;
+            
+            // INY
+            opcodeAray[(int) OpCode.INY] = INY;
         }
 
         public static CPU PowerOn()
@@ -374,6 +380,28 @@ namespace CPU6502Emulator
             SetLoadFlags(data, ref cycles);
             
             WriteByte(address, data, ref cycles);
+            cycles--;
+        }
+
+        #endregion
+
+        #region INX
+
+        void INX(ref ushort pointer, ref int cycles)
+        {
+            X += 1;
+            SetLoadFlags(X, ref cycles);
+            cycles--;
+        }
+
+        #endregion
+        
+        #region INY
+
+        void INY(ref ushort pointer, ref int cycles)
+        {
+            Y += 1;
+            SetLoadFlags(Y, ref cycles);
             cycles--;
         }
 

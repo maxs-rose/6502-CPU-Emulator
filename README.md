@@ -13,8 +13,8 @@ Status of completion:
   - [x] JMP
   - [x] JSR
   - [x] INC
-  - [ ] INX
-  - [ ] INY
+  - [x] INX
+  - [x] INY
   - [ ] ADC
   - [ ] AND
   - [ ] ASL

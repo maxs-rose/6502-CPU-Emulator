@@ -38,5 +38,11 @@
         INCZX = 0xF6,
         INCA = 0xEE,
         INCX = 0xFE,
+        
+        // INX
+        INX = 0xE8,
+        
+        // INY
+        INY = 0xC8,
     }
 }
