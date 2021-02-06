@@ -24,3 +24,8 @@ jobs:
       
     - name: Build Solution
       run: msbuild CPU6502Emulator.sln
+
+    - name: Run Tests
+      run: | 
+        cd "Test 6502"
+        dotnet test --no-restore --verbosity normal
