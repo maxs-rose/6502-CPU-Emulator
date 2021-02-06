@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Transactions;
 
 namespace CPU6502Emulator
 {
@@ -27,7 +28,7 @@ namespace CPU6502Emulator
         private Memory memory;
 
         private delegate void OpcodeArray(ref ushort pointer, ref int cycles);
-        private OpcodeArray[] opcodeAray;
+        private readonly OpcodeArray[] opcodeAray;
 
         // Registers
         public ushort pc;
@@ -48,6 +49,7 @@ namespace CPU6502Emulator
         // n - negative (bit 7 is set)
 
         // all we want to do here is create the memory we dont need to init anything yet, that is the job if the power on/reset sequence
+        
         private CPU()
         {
             memory = new Memory(0xFFFF);
@@ -87,6 +89,12 @@ namespace CPU6502Emulator
             
             // JSR
             opcodeAray[(int) OpCode.JSR] = JSR;
+            
+            // INC
+            opcodeAray[(int) OpCode.INCZ] = INCZ;
+            opcodeAray[(int) OpCode.INCZX] = INCZX;
+            opcodeAray[(int) OpCode.INCA] = INCA;
+            opcodeAray[(int) OpCode.INCX] = INCX;
         }
 
         public static CPU PowerOn()
@@ -127,6 +135,12 @@ namespace CPU6502Emulator
             dataAddress |= (ushort) (ReadByte(loByte, ref cycles) << 8);
 
             return dataAddress;
+        }
+
+        void WriteByte(ushort address, byte data, ref int cycle)
+        {
+            this[address] = data;
+            cycle--;
         }
 
         bool CrossesBoundary(int v1, int v2, int mod)
@@ -311,6 +325,60 @@ namespace CPU6502Emulator
 
         #endregion
 
+        #region INC
+
+        void INCZ(ref ushort pointer, ref int cycles)
+        {
+            var zAddress = ReadByte(pointer++, ref cycles);
+            cycles--;
+            var data = (byte)(ReadByte(zAddress, ref cycles) + 1);
+            
+            WriteByte(zAddress, data, ref cycles);
+            SetLoadFlags(data, ref cycles);
+        }
+
+        void INCZX(ref ushort pointer, ref int cycles)
+        {
+            var address = LoadZeroXAddress(ref pointer, ref cycles);
+            var data = ReadByte(address, ref cycles);
+            data += 1;
+            WriteByte(address, data, ref cycles);
+            SetLoadFlags(data, ref cycles);
+            cycles--;
+        }
+
+        void INCA(ref ushort pointer, ref int cycles)
+        {
+            var address = ReadShort(ref pointer, ref cycles);
+            pointer++;
+            var data = ReadByte(address, ref cycles);
+            data += 1;
+            
+            WriteByte(address, data, ref cycles);
+            SetLoadFlags(data, ref cycles);
+            cycles--;
+        }
+        
+        void INCX(ref ushort pointer, ref int cycles)
+        {
+            var address = ReadShort(ref pointer, ref cycles);
+            pointer++;
+
+            address += X;
+            address = (ushort)(address % 0x10000);
+            cycles--;
+
+            var data = ReadByte(address, ref cycles);
+            data += 1;
+            
+            SetLoadFlags(data, ref cycles);
+            
+            WriteByte(address, data, ref cycles);
+            cycles--;
+        }
+
+        #endregion
+
         void PushShortToSP(ushort value, ref int cycles)
         {
             memory.WriteStackShort(value, ref sp, ref cycles);
@@ -326,15 +394,22 @@ namespace CPU6502Emulator
             return ReadByte(address, ref cycles);
         }
 
+        byte LoadZeroXAddress(ref ushort pointer, ref int cycles)
+        {
+            ushort address = ReadByte(pointer++, ref cycles);
+            address += X;
+            address %= 0x100; // if we have escaped the 0 page then wrap around back to the start of it
+            cycles--;
+
+            return (byte)address;
+        }
+        
         /// <summary>
         /// Load byte with Zero X mode
         /// </summary>
         byte LoadZeroX(ref ushort pointer, ref int cycles)
         {
-            ushort address = ReadByte(pointer++, ref cycles);
-            address += X;
-            address %= 0x100; // if we have escaped the 0 page then wrap around back to the start of it
-            cycles--; // extra for adding x+ to address
+            ushort address = LoadZeroXAddress(ref pointer, ref cycles);
             return ReadByte(address, ref cycles);
         }
 
@@ -359,7 +434,7 @@ namespace CPU6502Emulator
             pointer++;
             return ReadByte(address, ref cycles);
         }
-
+        
         /// <summary>
         /// Load byte with absolute X mode
         /// </summary>

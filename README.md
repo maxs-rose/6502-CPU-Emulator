@@ -12,7 +12,7 @@ Status of completion:
   - [x] LDY
   - [x] JMP
   - [x] JSR
-  - [ ] INC
+  - [x] INC
   - [ ] INX
   - [ ] INY
   - [ ] ADC

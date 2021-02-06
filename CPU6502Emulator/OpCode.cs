@@ -32,5 +32,11 @@
         
         // JSR
         JSR = 0x20,
+        
+        // INC
+        INCZ = 0xE6,
+        INCZX = 0xF6,
+        INCA = 0xEE,
+        INCX = 0xFE,
     }
 }
