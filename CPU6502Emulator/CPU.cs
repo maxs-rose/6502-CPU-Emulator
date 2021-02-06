@@ -54,7 +54,7 @@ namespace CPU6502Emulator
 
             opcodeAray = new OpcodeArray[0xFF];
             Array.Fill(opcodeAray,
-                (ref ushort pointer, ref int cycles) => throw new Exception($"Opcode not recognised {pointer:x8}"));
+                (ref ushort pointer, ref int _) => throw new Exception($"Opcode not recognised {pointer:x8}"));
 
             // LDA
             opcodeAray[(int) OpCode.LDAI] = LDAI;
