@@ -14,6 +14,11 @@
         LDXZ = 0xA6,
         LDXZY = 0xB6,
         LDXA = 0xAE,
-        LDXAY = 0xBE
-    };
+        LDXAY = 0xBE,
+        LDYI = 0xA0,
+        LDYZ = 0xA4,
+        LDYZX = 0xB4,
+        LDYA = 0xAC,
+        LDYAX = 0xBC
+    }
 }

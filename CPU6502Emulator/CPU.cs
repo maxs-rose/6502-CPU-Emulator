@@ -107,6 +107,7 @@ namespace CPU6502Emulator
                 int tempPc = pc;
                 RunLDA(ref cycles);
                 RunLDX(ref cycles);
+                RunLDY(ref cycles);
 
                 if (tempPc == pc)
                     throw new Exception($"Unrecognised opcode {pc:x8}");
@@ -173,7 +174,6 @@ namespace CPU6502Emulator
                 }return;
             }
         }
-
         void RunLDX(ref int cycles)
         {
             if (cycles <= 0)
@@ -210,6 +210,42 @@ namespace CPU6502Emulator
                     pc++;
                     X = LoadAbsoluteY(ref pc, ref cycles);
                     SetLoadFlags(X, ref cycles);
+                }return;
+            }
+        }
+        void RunLDY(ref int cycles)
+        {
+            switch (this[pc])
+            {
+                case (byte) OpCode.LDYI:
+                {
+                    Y = ReadByte(++pc, ref cycles);
+                    pc++;
+                    SetLoadFlags(Y, ref cycles);
+                }return;
+                case (byte) OpCode.LDYZ:
+                {
+                    pc++;
+                    Y = LoadZero(ref pc, ref cycles);
+                    SetLoadFlags(Y, ref cycles);
+                }return;
+                case (byte) OpCode.LDYZX:
+                {
+                    pc++;
+                    Y = LoadZeroX(ref pc, ref cycles);
+                    SetLoadFlags(Y, ref cycles);
+                }return;
+                case (byte) OpCode.LDYA:
+                {
+                    pc++;
+                    Y = LoadAbsolute(ref pc, ref cycles);
+                    SetLoadFlags(Y, ref cycles);
+                }return;
+                case (byte) OpCode.LDYAX:
+                {
+                    pc++;
+                    Y = LoadAbsoluteX(ref pc, ref cycles);
+                    SetLoadFlags(Y, ref cycles);
                 }return;
             }
         }

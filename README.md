@@ -8,8 +8,8 @@ Status of completion:
 
 - [ ] Instructions
   - [x] LDA
-  - [ ] LDX
-  - [ ] LDY
+  - [x] LDX
+  - [x] LDY
   - [ ] JMP
   - [ ] JSR
   - [ ] INC
