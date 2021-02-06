@@ -94,8 +94,8 @@ namespace CPU6502Emulator
 
         void SetLoadFlags(int value, ref int cycles)
         {
-            flags |= (A & 0b10000000) > 0 ? Flags.N : 0;
-            flags |= A == 0 ? Flags.Z : 0;
+            flags |= (value & 0b10000000) > 0 ? Flags.N : 0;
+            flags |= value == 0 ? Flags.Z : 0;
             
             cycles--;
         }
@@ -106,6 +106,7 @@ namespace CPU6502Emulator
             {
                 int tempPc = pc;
                 RunLDA(ref cycles);
+                RunLDX(ref cycles);
 
                 if (tempPc == pc)
                     throw new Exception($"Unrecognised opcode {pc:x8}");
@@ -117,47 +118,90 @@ namespace CPU6502Emulator
 
         void RunLDA(ref int cycles)
         {
-            switch (memory[pc++])
+            if (cycles <= 0)
+                return;
+            
+            switch (this[pc])
             {
                 case (byte) OpCode.LDAI:
                 {
-                    A = ReadByte(pc++, ref cycles);
+                    A = ReadByte(++pc, ref cycles);
+                    pc++;
                     SetLoadFlags(A, ref cycles);
                 }return;
                 case (byte) OpCode.LDAZ:
                 {
+                    pc++;
                     A = LoadZero(ref pc, ref cycles);
                     SetLoadFlags(A, ref cycles);
                 } return;
                 case (byte) OpCode.LDAZX:
                 {
+                    pc++;
                     A = LoadZeroX(ref pc, ref cycles);
                     SetLoadFlags(A, ref cycles);
                 } return;
                 case (byte) OpCode.LDAA:
                 {
+                    pc++;
                     A = LoadAbsolute(ref pc, ref cycles);
                     SetLoadFlags(A, ref cycles);
                 } return;
                 case (byte) OpCode.LDAAX:
                 {
+                    pc++;
                     A = LoadAbsoluteX(ref pc, ref cycles);
                     SetLoadFlags(A, ref cycles);
                 } return;
                 case (byte) OpCode.LDAAY:
                 {
+                    pc++;
                     A = LoadAbsoluteY(ref pc, ref cycles);
                     SetLoadFlags(A, ref cycles);
                 }return;
                 case (byte) OpCode.LDAIX:
                 {
+                    pc++;
                     A = LoadIndirectX(ref pc, ref cycles);
                     SetLoadFlags(A, ref cycles);
                 }return;
                 case (byte) OpCode.LDAIY:
                 {
+                    pc++;
                     A = LoadIndirectY(ref pc, ref cycles);
                     SetLoadFlags(A, ref cycles);
+                }return;
+            }
+        }
+
+        void RunLDX(ref int cycles)
+        {
+            if (cycles <= 0)
+                return;
+            
+            switch (this[pc])
+            {
+                case (byte) OpCode.LDXI:
+                {
+                    X = ReadByte(++pc, ref cycles);
+                    pc++;
+                    SetLoadFlags(X, ref cycles);
+                }return;
+                case (byte) OpCode.LDXZ:
+                {
+                    throw new NotImplementedException();
+                }return;
+                case (byte) OpCode.LDXZY:
+                {
+                    throw new NotImplementedException();
+                }return;
+                case (byte) OpCode.LDXA:
+                {
+                    throw new NotImplementedException();
+                }return;
+                case (byte) OpCode.LDXAY:
+                {
+                    throw new NotImplementedException();
                 }return;
             }
         }
