@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPU6502Emulator", "CPU6502Emulator\CPU6502Emulator.csproj", "{2B3F91D3-37AC-4633-B7C1-C2A50BBA4164}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test 6502", "Test 6502\Test 6502.csproj", "{60B77F82-7832-447D-9609-851984D6508F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B3F91D3-37AC-4633-B7C1-C2A50BBA4164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B3F91D3-37AC-4633-B7C1-C2A50BBA4164}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B3F91D3-37AC-4633-B7C1-C2A50BBA4164}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B3F91D3-37AC-4633-B7C1-C2A50BBA4164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60B77F82-7832-447D-9609-851984D6508F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60B77F82-7832-447D-9609-851984D6508F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60B77F82-7832-447D-9609-851984D6508F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60B77F82-7832-447D-9609-851984D6508F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
