@@ -24,6 +24,13 @@
         LDYZ = 0xA4,
         LDYZX = 0xB4,
         LDYA = 0xAC,
-        LDYAX = 0xBC
+        LDYAX = 0xBC,
+        
+        // JMP
+        JMPI = 0x4C,
+        JMPIN = 0x6C,
+        
+        // JSR
+        JSR = 0x20,
     }
 }

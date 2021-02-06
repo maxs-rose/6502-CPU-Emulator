@@ -10,7 +10,7 @@ Status of completion:
   - [x] LDA
   - [x] LDX
   - [x] LDY
-  - [ ] JMP
+  - [x] JMP
   - [ ] JSR
   - [ ] INC
   - [ ] INX

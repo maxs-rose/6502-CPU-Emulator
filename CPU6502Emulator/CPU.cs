@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace CPU6502Emulator
 {
@@ -79,6 +80,10 @@ namespace CPU6502Emulator
             opcodeAray[(int) OpCode.LDYZX] = LDYZX;
             opcodeAray[(int) OpCode.LDYA] = LDYA;
             opcodeAray[(int) OpCode.LDYAX] = LDYAX;
+            
+            // JMP
+            opcodeAray[(int) OpCode.JMPI] = JMPI;
+            opcodeAray[(int) OpCode.JMPIN] = JMPIN;
         }
 
         public static CPU PowerOn()
@@ -271,6 +276,23 @@ namespace CPU6502Emulator
         {
             Y = LoadAbsoluteX(ref pointer, ref cycles);
             SetLoadFlags(Y, ref cycles);
+        }
+
+        #endregion
+
+        #region JMP
+
+        void JMPI(ref ushort pointer, ref int cycles)
+        {
+            pointer = ReadShort(ref pointer, ref cycles);
+            cycles--; // extra cycle used to set pc
+        }
+        
+        void JMPIN(ref ushort pointer, ref int cycles)
+        {
+            pointer = ReadShort(ref pointer, ref cycles);
+            pointer = ReadShort(ref pointer, ref cycles);
+            cycles--;
         }
 
         #endregion
