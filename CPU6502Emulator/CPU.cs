@@ -26,7 +26,6 @@ namespace CPU6502Emulator
         private Memory memory;
 
         private delegate void OpcodeArray(ref ushort pointer, ref int cycles);
-
         private OpcodeArray[] opcodeAray;
 
         // Registers
@@ -148,7 +147,7 @@ namespace CPU6502Emulator
                 }
                 catch (IndexOutOfRangeException)
                 {
-                    throw new Exception($"Unrecognised opcode {pc:x8}");
+                    throw new IndexOutOfRangeException($"Opcode does not exist in 6502!");
                 }
 
                 if (cycles < 0)
