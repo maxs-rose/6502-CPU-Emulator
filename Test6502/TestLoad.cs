@@ -26,7 +26,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x37, cpu.A);
-            Assert.AreEqual(false, cpu.N);
+            Assert.AreEqual((Flags)0, cpu.flags);
             Assert.AreEqual(0x0102, cpu.pc);
         }
         
@@ -40,7 +40,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x80, cpu.A);
-            Assert.AreEqual(true, cpu.N);
+            Assert.AreEqual(Flags.N, cpu.flags);
             Assert.AreEqual(0x0102, cpu.pc);
         }
 
@@ -55,7 +55,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x37, cpu.A);
-            Assert.AreEqual(false, cpu.N);
+            Assert.AreEqual((Flags)0, cpu.flags);
             Assert.AreEqual(0x0102, cpu.pc);
         }
         
@@ -70,7 +70,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x80, cpu.A);
-            Assert.AreEqual(true, cpu.N);
+            Assert.AreEqual(Flags.N, cpu.flags);
             Assert.AreEqual(0x0102, cpu.pc);
         }
         
@@ -86,7 +86,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x37, cpu.A);
-            Assert.AreEqual(false, cpu.N);
+            Assert.AreEqual((Flags)0, cpu.flags);
             Assert.AreEqual(0x0102, cpu.pc);
         }
         
@@ -102,7 +102,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x80, cpu.A);
-            Assert.AreEqual(true, cpu.N);
+            Assert.AreEqual(Flags.N, cpu.flags);
             Assert.AreEqual(0x0102, cpu.pc);
         }
         
@@ -118,7 +118,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x37, cpu.A);
-            Assert.AreEqual(false, cpu.N);
+            Assert.AreEqual((Flags)0, cpu.flags);
             Assert.AreEqual(0x0103, cpu.pc);
         }
         
@@ -134,7 +134,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x80, cpu.A);
-            Assert.AreEqual(true, cpu.N);
+            Assert.AreEqual(Flags.N, cpu.flags);
             Assert.AreEqual(0x0103, cpu.pc);
         }
         
@@ -152,7 +152,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x37, cpu.A);
-            Assert.AreEqual(false, cpu.N);
+            Assert.AreEqual((Flags)0, cpu.flags);
             Assert.AreEqual(0x0103, cpu.pc);
         }
         
@@ -170,7 +170,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x37, cpu.A);
-            Assert.AreEqual(false, cpu.N);
+            Assert.AreEqual((Flags)0, cpu.flags);
             Assert.AreEqual(0x0103, cpu.pc);
         }
         
@@ -188,7 +188,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x80, cpu.A);
-            Assert.AreEqual(true, cpu.N);
+            Assert.AreEqual(Flags.N, cpu.flags);
             Assert.AreEqual(0x0103, cpu.pc);
         }
         
@@ -206,7 +206,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x80, cpu.A);
-            Assert.AreEqual(true, cpu.N);
+            Assert.AreEqual(Flags.N, cpu.flags);
             Assert.AreEqual(0x0103, cpu.pc);
         }
         
@@ -224,7 +224,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x37, cpu.A);
-            Assert.AreEqual(false, cpu.N);
+            Assert.AreEqual((Flags)0, cpu.flags);
             Assert.AreEqual(0x0103, cpu.pc);
         }
         
@@ -242,7 +242,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x37, cpu.A);
-            Assert.AreEqual(false, cpu.N);
+            Assert.AreEqual((Flags)0, cpu.flags);
             Assert.AreEqual(0x0103, cpu.pc);
         }
         
@@ -260,7 +260,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x80, cpu.A);
-            Assert.AreEqual(true, cpu.N);
+            Assert.AreEqual(Flags.N, cpu.flags);
             Assert.AreEqual(0x0103, cpu.pc);
         }
         
@@ -278,7 +278,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x80, cpu.A);
-            Assert.AreEqual(true, cpu.N);
+            Assert.AreEqual(Flags.N, cpu.flags);
             Assert.AreEqual(0x0103, cpu.pc);
         }
         
@@ -297,7 +297,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x37, cpu.A);
-            Assert.AreEqual(false, cpu.N);
+            Assert.AreEqual((Flags)0, cpu.flags);
             Assert.AreEqual(0x0102, cpu.pc);
         }
         
@@ -316,7 +316,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x80, cpu.A);
-            Assert.AreEqual(true, cpu.N);
+            Assert.AreEqual(Flags.N, cpu.flags);
             Assert.AreEqual(0x0102, cpu.pc);
         }
         
@@ -335,7 +335,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x37, cpu.A);
-            Assert.AreEqual(false, cpu.N);
+            Assert.AreEqual((Flags)0, cpu.flags);
             Assert.AreEqual(0x0102, cpu.pc);
         }
         
@@ -354,7 +354,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x37, cpu.A);
-            Assert.AreEqual(false, cpu.N);
+            Assert.AreEqual((Flags)0, cpu.flags);
             Assert.AreEqual(0x0102, cpu.pc);
         }
         
@@ -373,7 +373,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x80, cpu.A);
-            Assert.AreEqual(true, cpu.N);
+            Assert.AreEqual(Flags.N, cpu.flags);
             Assert.AreEqual(0x0102, cpu.pc);
         }
         
@@ -392,7 +392,7 @@ namespace Test_6504
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x80, cpu.A);
-            Assert.AreEqual(true, cpu.N);
+            Assert.AreEqual(Flags.N, cpu.flags);
             Assert.AreEqual(0x0102, cpu.pc);
         }
     }

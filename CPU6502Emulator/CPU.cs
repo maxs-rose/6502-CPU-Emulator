@@ -32,13 +32,14 @@ namespace CPU6502Emulator
         public byte X;
         public byte Y;
         // - Status flags
-        public bool C; // carry
-        public bool Z; // zero
-        public bool I; // interrupt disable
-        public bool D; // decimal mode
-        public bool B; // break
-        public bool V; // overflow (looks at bits 6 and 7 to check for validness, ie 0111 1111 + 0111 1111 != 1111 1111 as that is negative)
-        public bool N; // negative (bit 7 is set)
+        public Flags flags;
+        // c - carry
+        // z - zero
+        // i - interrupt disable
+        // d - decimal mode
+        // b - break
+        // v - overflow (looks at bits 6 and 7 to check for validness, ie 0111 1111 + 0111 1111 != 1111 1111 as that is negative)
+        // n - negative (bit 7 is set)
 
         // all we want to do here is create the memory we dont need to init anything yet, that is the job if the power on/reset sequence
         private CPU() { memory = new Memory(0xFFFF); } 
@@ -58,6 +59,9 @@ namespace CPU6502Emulator
             this[0xFFFD] = 0x01;
             
             sp = 0x0100;
+
+            flags = 0;
+            A = X = Y = 0;
             
             // location of first usable opcode
             pc = 0xFFFC;
@@ -90,8 +94,8 @@ namespace CPU6502Emulator
 
         void SetLoadFlags(int value, ref int cycles)
         {
-            N = (A & 0b10000000) > 0;
-            Z = A == 0;
+            flags |= (A & 0b10000000) > 0 ? Flags.N : 0;
+            flags |= A == 0 ? Flags.Z : 0;
             
             cycles--;
         }
