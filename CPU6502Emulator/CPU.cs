@@ -66,17 +66,17 @@ namespace CPU6502Emulator
             // location of first usable opcode
             pc = 0xFFFC;
             var cycles = 2;
-            var firstLoc = GetShortAddress(ref pc, ref cycles);
+            var firstLoc = ReadShort(ref pc, ref cycles);
             pc = firstLoc;
         }
 
         byte ReadByte(ushort address, ref int cycle)
         {
             cycle--;
-            return memory[address];
+            return this[address];
         }
 
-        ushort GetShortAddress(ref ushort loByte, ref int cycles)
+        ushort ReadShort(ref ushort loByte, ref int cycles)
         {
             ushort dataAddress = ReadByte(loByte++, ref cycles);
             dataAddress |= (ushort)(ReadByte(loByte, ref cycles) << 8);
@@ -120,88 +120,132 @@ namespace CPU6502Emulator
             switch (memory[pc++])
             {
                 case (byte) OpCode.LDAI:
-                    // load into A register
+                {
                     A = ReadByte(pc++, ref cycles);
-
                     SetLoadFlags(A, ref cycles);
-                    return;
+                }return;
                 case (byte) OpCode.LDAZ:
                 {
-                    ushort address = ReadByte(pc++, ref cycles);
-                    A = ReadByte(address, ref cycles);
-
+                    A = LoadZero(ref pc, ref cycles);
                     SetLoadFlags(A, ref cycles);
                 } return;
                 case (byte) OpCode.LDAZX:
                 {
-                    ushort address = ReadByte(pc++, ref cycles);
-                    A = ReadByte((ushort) (address + X), ref cycles);
-                    cycles--; // extra for adding x+ to address
-
+                    A = LoadZeroX(ref pc, ref cycles);
                     SetLoadFlags(A, ref cycles);
                 } return;
                 case (byte) OpCode.LDAA:
                 {
-                    var address = GetShortAddress(ref pc, ref cycles);
-                    pc++;
-                    A = ReadByte(address, ref cycles);
-
+                    A = LoadAbsolute(ref pc, ref cycles);
                     SetLoadFlags(A, ref cycles);
                 } return;
                 case (byte) OpCode.LDAAX:
                 {
-                    var address = GetShortAddress(ref pc, ref cycles);
-                    pc++;
-
-                    if (CrossesBoundary(address, X, 0xFFFF))
-                        cycles--;
-
-                    A = ReadByte((ushort) ((address + X) % 0xFFFF), ref cycles);
-
+                    A = LoadAbsoluteX(ref pc, ref cycles);
                     SetLoadFlags(A, ref cycles);
                 } return;
                 case (byte) OpCode.LDAAY:
                 {
-                    var address = GetShortAddress(ref pc, ref cycles);
-                    pc++;
-
-                    if (CrossesBoundary(address, Y, 0xFFFF))
-                        cycles--;
-
-                    A = ReadByte((ushort) ((address + Y) % 0xFFFF), ref cycles);
-
+                    A = LoadAbsoluteY(ref pc, ref cycles);
                     SetLoadFlags(A, ref cycles);
                 }return;
                 case (byte) OpCode.LDAIX:
                 {
-                    ushort zeroAddress = ReadByte(pc++, ref cycles);
-                    
-                    zeroAddress += X;
-                    cycles--;
-
-                    var dataAddress = GetShortAddress(ref zeroAddress, ref cycles);
-
-                    A = ReadByte(dataAddress, ref cycles);
-
+                    A = LoadIndirectX(ref pc, ref cycles);
                     SetLoadFlags(A, ref cycles);
                 }return;
                 case (byte) OpCode.LDAIY:
                 {
-                    ushort zeroAddress = ReadByte(pc++, ref cycles);
-
-                    var dataAddress = GetShortAddress(ref zeroAddress, ref cycles);
-
-                    if (CrossesBoundary(dataAddress, Y, 0xFFFF))
-                        cycles--;
-
-                    dataAddress += Y;
-                    dataAddress %= 0xFFFF;
-
-                    A = ReadByte(dataAddress, ref cycles);
-
+                    A = LoadIndirectY(ref pc, ref cycles);
                     SetLoadFlags(A, ref cycles);
                 }return;
             }
+        }
+        
+        /// <summary>
+        /// Load byte from zero page
+        /// </summary>
+        byte LoadZero(ref ushort pointer, ref int cycles)
+        {
+            ushort address = ReadByte(pointer++, ref cycles);
+            return ReadByte(address, ref cycles);
+        }
+        /// <summary>
+        /// Load byte with Zero X mode
+        /// </summary>
+        byte LoadZeroX(ref ushort pointer, ref int cycles)
+        {
+            ushort address = ReadByte(pointer++, ref cycles);
+            address += X;
+            address %= 0x100; // if we have escaped the 0 page then wrap around back to the start of it
+            cycles--; // extra for adding x+ to address
+            return ReadByte(address, ref cycles);
+        }
+        
+        /// <summary>
+        /// Load byte with absolute mode
+        /// </summary>
+        byte LoadAbsolute(ref ushort pointer, ref int cycles)
+        {
+            var address = ReadShort(ref pointer, ref cycles);
+            pointer++;
+            return ReadByte(address, ref cycles);
+        }
+        /// <summary>
+        /// Load byte with absolute X mode
+        /// </summary>
+        byte LoadAbsoluteX(ref ushort pointer, ref int cycles)
+        {
+            var address = ReadShort(ref pointer, ref cycles);
+            pointer++;
+
+            if (CrossesBoundary(address, X, 0x10000))
+                cycles--;
+
+            return ReadByte((ushort) ((address + X) % 0x10000), ref cycles);
+        }
+        /// <summary>
+        /// Load byte with absolute Y mode
+        /// </summary>
+        byte LoadAbsoluteY(ref ushort pointer, ref int cycles)
+        {
+            var address = ReadShort(ref pointer, ref cycles);
+            pointer++;
+
+            if (CrossesBoundary(address, Y, 0x10000))
+                cycles--;
+
+            return ReadByte((ushort) ((address + Y) % 0x10000), ref cycles);
+        }
+        
+        /// <summary>
+        /// Load byte with Indirect X mode 
+        /// </summary>
+        byte LoadIndirectX(ref ushort pointer, ref int cycles)
+        {
+            ushort zeroAddress = ReadByte(pc++, ref cycles);
+                    
+            zeroAddress += X;
+            cycles--;
+
+            var dataAddress = ReadShort(ref zeroAddress, ref cycles);
+
+            return ReadByte(dataAddress, ref cycles);
+        }
+        /// <summary>
+        /// Load byte with Indirect Y mode 
+        /// </summary>
+        byte LoadIndirectY(ref ushort pointer, ref int cycles)
+        {
+            ushort zeroAddress = ReadByte(pointer++, ref cycles);
+            var dataAddress = ReadShort(ref zeroAddress, ref cycles);
+
+            if (CrossesBoundary(dataAddress, Y, 0x10000))
+                cycles--;
+
+            dataAddress += Y;
+
+            return ReadByte(dataAddress, ref cycles);
         }
 
         public byte this[ushort index]

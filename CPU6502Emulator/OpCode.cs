@@ -9,6 +9,11 @@
         LDAAX = 0xBD,
         LDAAY = 0xB9,
         LDAIX = 0xA1,
-        LDAIY = 0xB1
+        LDAIY = 0xB1,
+        LDXI = 0xA2,
+        LDXZ = 0xA6,
+        LDXZY = 0xB6,
+        LDXA = 0xAE,
+        LDXAY = 0xBE
     };
 }
