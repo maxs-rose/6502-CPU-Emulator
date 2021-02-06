@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Reflection;
-using System.Transactions;
 
 namespace CPU6502Emulator
 {
@@ -496,7 +494,7 @@ namespace CPU6502Emulator
         /// </summary>
         byte LoadIndirectX(ref ushort pointer, ref int cycles)
         {
-            ushort zeroAddress = ReadByte(pc++, ref cycles);
+            ushort zeroAddress = ReadByte(pointer++, ref cycles);
 
             zeroAddress += X;
             cycles--;
