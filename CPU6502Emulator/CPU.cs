@@ -189,19 +189,27 @@ namespace CPU6502Emulator
                 }return;
                 case (byte) OpCode.LDXZ:
                 {
-                    throw new NotImplementedException();
+                    pc++;
+                    X = LoadZero(ref pc, ref cycles);
+                    SetLoadFlags(X, ref cycles);
                 }return;
                 case (byte) OpCode.LDXZY:
                 {
-                    throw new NotImplementedException();
+                    pc++;
+                    X = LoadZeroY(ref pc, ref cycles);
+                    SetLoadFlags(X, ref cycles);
                 }return;
                 case (byte) OpCode.LDXA:
                 {
-                    throw new NotImplementedException();
+                    pc++;
+                    X = LoadAbsolute(ref pc, ref cycles);
+                    SetLoadFlags(X, ref cycles);
                 }return;
                 case (byte) OpCode.LDXAY:
                 {
-                    throw new NotImplementedException();
+                    pc++;
+                    X = LoadAbsoluteY(ref pc, ref cycles);
+                    SetLoadFlags(X, ref cycles);
                 }return;
             }
         }
@@ -221,6 +229,17 @@ namespace CPU6502Emulator
         {
             ushort address = ReadByte(pointer++, ref cycles);
             address += X;
+            address %= 0x100; // if we have escaped the 0 page then wrap around back to the start of it
+            cycles--; // extra for adding x+ to address
+            return ReadByte(address, ref cycles);
+        }
+        /// <summary>
+        /// Load byte with Zero Y mode
+        /// </summary>
+        byte LoadZeroY(ref ushort pointer, ref int cycles)
+        {
+            ushort address = ReadByte(pointer++, ref cycles);
+            address += Y;
             address %= 0x100; // if we have escaped the 0 page then wrap around back to the start of it
             cycles--; // extra for adding x+ to address
             return ReadByte(address, ref cycles);
