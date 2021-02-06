@@ -23,7 +23,7 @@ namespace Test6502
             cpu.Reset();
 
             Assert.AreEqual(0x0100,cpu.pc);
-            Assert.AreEqual(0x0100,cpu.sp);
+            Assert.AreEqual(0xFF,cpu.sp);
         }
     }
 }

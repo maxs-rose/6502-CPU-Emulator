@@ -31,7 +31,7 @@ namespace CPU6502Emulator
 
         // Registers
         public ushort pc;
-        public int sp; // points to system stack
+        public ushort sp; // points to system stack
         public byte A;
         public byte X;
 
@@ -84,6 +84,9 @@ namespace CPU6502Emulator
             // JMP
             opcodeAray[(int) OpCode.JMPI] = JMPI;
             opcodeAray[(int) OpCode.JMPIN] = JMPIN;
+            
+            // JSR
+            opcodeAray[(int) OpCode.JSR] = JSR;
         }
 
         public static CPU PowerOn()
@@ -100,7 +103,7 @@ namespace CPU6502Emulator
             this[0xFFFC] = 0x00;
             this[0xFFFD] = 0x01;
 
-            sp = 0x0100;
+            sp = 0xFF;
 
             flags = 0;
             A = X = Y = 0;
@@ -296,6 +299,23 @@ namespace CPU6502Emulator
         }
 
         #endregion
+
+        #region JSR
+
+        void JSR(ref ushort pointer, ref int cycles)
+        {
+            var address = ReadShort(ref pointer, ref cycles);
+            PushShortToSP(pointer, ref cycles);
+            pointer = address;
+        }
+
+        #endregion
+
+        void PushShortToSP(ushort value, ref int cycles)
+        {
+            memory.WriteStackShort(value, ref sp, ref cycles);
+            cycles -= 2;
+        }
 
         /// <summary>
         /// Load byte from zero page
