@@ -23,9 +23,11 @@ jobs:
       run:  nuget restore CPU6502Emulator.sln
       
     - name: Build Solution
-      run: msbuild CPU6502Emulator.sln
+      run: |
+        cd "Test 6502"
+        dotnet build --configuration Release
 
     - name: Run Tests
-      run: | 
+      run: |
         cd "Test 6502"
-        dotnet test --no-restore --verbosity normal
+        dotnet test --no-build --configuration Release
