@@ -39,8 +39,8 @@ namespace Test6502
         [TestCase(0xFF, (ushort)0xFF01, 0x0, Flags.Z)]
         [TestCase(0b0110_0100, (ushort)0xFE09, 0b0000_0100, (Flags)0)]
         [TestCase(0b0110_0100, (ushort)0xFE09, 0b0100_0100, Flags.V)]
-        [TestCase(0b0010_0100, (ushort)0x0D01, 0b0100_0100, Flags.N | Flags.V)]
-        [TestCase(0b1010_0100, (ushort)0xFF01, 0b1100_0100, Flags.N)]
+        [TestCase(0b0010_0100, (ushort)0x0D01, 0b0100_0100, Flags.V)]
+        [TestCase(0b1010_0100, (ushort)0xFF01, 0b1100_0100, Flags.N | Flags.V)]
         [TestCase(0, (ushort)0xFF01, 0b1100_0100, Flags.N | Flags.V | Flags.Z)]
         public void BITA(byte acc, ushort address, byte mask, Flags flags)
         {

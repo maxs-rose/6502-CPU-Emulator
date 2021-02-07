@@ -914,12 +914,50 @@ namespace CPU6502Emulator
         
         void BITZ(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = LoadZero(ref pointer, ref cycles);
+            
+            if ((data & 0b0100_0000) > 0)
+                flags |= Flags.V;
+            else
+                flags &= ~Flags.V;
+            
+            if ((data & 0b1000_0000) > 0)
+                flags |= Flags.N;
+            else
+                flags &= ~Flags.N;
+            
+            data &= A;
+            
+            if (data == 0)
+                flags |= Flags.Z;
+            else
+                flags &= ~Flags.Z;
+
+            cycles--;
         }
         
         void BITA(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = LoadAbsolute(ref pointer, ref cycles);
+            
+            if ((data & 0b0100_0000) > 0)
+                flags |= Flags.V;
+            else
+                flags &= ~Flags.V;
+            
+            if ((data & 0b1000_0000) > 0)
+                flags |= Flags.N;
+            else
+                flags &= ~Flags.N;
+            
+            data &= A;
+            
+            if (data == 0)
+                flags |= Flags.Z;
+            else
+                flags &= ~Flags.Z;
+
+            cycles--;
         }
 
         #endregion
