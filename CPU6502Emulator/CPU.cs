@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using CPU6502Emulator.Exceptions;
 
 namespace CPU6502Emulator
@@ -515,17 +516,31 @@ namespace CPU6502Emulator
 
         void STXZ(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+            var zpAddress = ReadByte(pointer++, ref cycles);
+            WriteByte(zpAddress, X, ref cycles);
+
+            cycles--;
         }
 
         void STXZY(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+            var zpAddress = ReadByte(pointer++, ref cycles);
+            
+            zpAddress += Y;
+            cycles--;
+            
+            WriteByte(zpAddress, X, ref cycles);
+            
+            cycles--;
         }
 
         void STXA(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+            var address = ReadShort(ref pointer, ref cycles);
+            WriteByte(address, X, ref cycles);
+
+            pointer++;
+            cycles--;
         }
 
         #endregion
