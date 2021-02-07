@@ -62,7 +62,7 @@ namespace Test6502
             var preFlags = (Flags) 7;
             cpu.flags = preFlags;
             cpu.Y = value;
-            cpu[0x0100] = (byte)OpCode.STXA;
+            cpu[0x0100] = (byte)OpCode.STYA;
             cpu[0x0101] = (byte)address;
             cpu[0x0102] = (byte)(address >> 8);
             cpu[address] = (byte)(value + 1);
