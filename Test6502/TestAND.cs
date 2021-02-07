@@ -88,7 +88,7 @@ namespace Test6502
             cpu[0x0102] = (byte)(address >> 8);
             cpu[address] = mask;
 
-            var cycles = 3;
+            var cycles = 4;
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(result, cpu.A);
@@ -105,7 +105,7 @@ namespace Test6502
             cpu.A = acc;
             cpu.X = x;
 
-            cpu[0x0100] = (byte) OpCode.ANDAY;
+            cpu[0x0100] = (byte) OpCode.ANDAX;
             cpu[0x0101] = (byte)address;
             cpu[0x0102] = (byte)(address >> 8);
             cpu[(ushort) ((address + x) % 0x10000)] = mask;
@@ -183,7 +183,7 @@ namespace Test6502
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(result, cpu.A);
             Assert.AreEqual(flags, cpu.flags);
-            Assert.AreEqual(0x0103, cpu.pc);
+            Assert.AreEqual(0x0102, cpu.pc);
         }
     }
 }

@@ -731,42 +731,59 @@ namespace CPU6502Emulator
 
         void ANDI(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = ReadByte(pointer++, ref cycles);
+            A &= data;
+            SetLoadFlags(A, ref cycles);
         }
         
         void ANDZ(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = LoadZero(ref pointer, ref cycles);
+            A &= data;
+            SetLoadFlags(A, ref cycles);
         }
         
         void ANDZX(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = LoadZeroX(ref pointer, ref cycles);
+            cycles++;
+            A &= data;
+            SetLoadFlags(A, ref cycles);
         }
         
         void ANDA(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = LoadAbsolute(ref pointer, ref cycles);
+            A &= data;
+            SetLoadFlags(A, ref cycles);
         }
         
         void ANDAX(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = LoadAbsoluteX(ref pointer, ref cycles);
+            A &= data;
+            SetLoadFlags(A, ref cycles);
         }
         
         void ANDAY(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = LoadAbsoluteY(ref pointer, ref cycles);
+            A &= data;
+            SetLoadFlags(A, ref cycles);
         }
         
         void ANDIX(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = LoadIndirectX(ref pointer, ref cycles);
+            A &= data;
+            SetLoadFlags(A, ref cycles);
         }
         
         void ANDIY(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = LoadIndirectY(ref pointer, ref cycles);
+            A &= data;
+            SetLoadFlags(A, ref cycles);
         }
 
         #endregion
@@ -993,6 +1010,7 @@ namespace CPU6502Emulator
             ushort zeroAddress = ReadByte(pointer++, ref cycles);
 
             zeroAddress += X;
+            zeroAddress = (ushort) (zeroAddress % 0x100);
             cycles--;
 
             var dataAddress = ReadShort(ref zeroAddress, ref cycles);

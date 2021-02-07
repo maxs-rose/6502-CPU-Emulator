@@ -41,7 +41,7 @@ At some point I will also hopefully create a compiler for this as well.
   - [x] PLA
   - [x] PLP
   - Logical Ops
-  - [ ] AND
+  - [x] AND
   - [ ] EOR
   - [ ] ORA
   - [ ] BIT
