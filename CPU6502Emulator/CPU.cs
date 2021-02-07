@@ -668,13 +668,14 @@ namespace CPU6502Emulator
         void PHA(ref ushort pointer, ref int cycles)
         {
             PushByteToSP(A, ref cycles);
-            cycles--; // extra one to read A?
 
-            cycles--; // increment pc
+            cycles -= 2;
         }
         void PHP(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X} is not yet implemented");
+            PushByteToSP((byte)flags, ref cycles);
+
+            cycles -= 2;
         }
         void PLA(ref ushort pointer, ref int cycles)
         {

@@ -34,12 +34,12 @@ namespace Test6502
             Assert.AreEqual(preFlags, cpu.flags);
         }
 
-        [TestCase(0x37)]
-        [TestCase(0x0)]
-        [TestCase(0x80)]
-        public void PHP(byte value)
+        [TestCase((Flags)0x37)]
+        [TestCase((Flags)0x0)]
+        [TestCase((Flags)0x80)]
+        public void PHP(Flags value)
         {
-            cpu.flags = (Flags)value;
+            cpu.flags = value;
             var preFlags = cpu.flags;
             
             cpu[0x0100] = (byte)OpCode.PHP;
@@ -47,7 +47,9 @@ namespace Test6502
             var cycles = 3;
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
-            Assert.AreEqual(cpu.flags, cpu[++cpu.sp]);
+            Assert.AreEqual(cpu.flags, (Flags)cpu[++cpu.sp]);
+            Assert.AreEqual(value, (Flags)cpu[cpu.sp]);
+            Assert.AreEqual(value, cpu.flags);
             Assert.AreEqual(0x0101, cpu.pc);
             Assert.AreEqual(preFlags, cpu.flags);
         }
