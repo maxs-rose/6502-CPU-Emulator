@@ -30,7 +30,7 @@
         public byte PopStack(ref byte address, ref int cycles)
         {
             cycles--;
-            return this[address++];
+            return this[++address];
         }
         
         public ushort ReadStackShort(ref byte loAddress, ref int cycles)

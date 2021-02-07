@@ -202,7 +202,9 @@ namespace CPU6502Emulator
             {
                 try
                 {
-                    opcodeAray[this[pc++]](ref pc, ref cycles);
+                    opcodeAray[
+                        this[pc++]
+                    ](ref pc, ref cycles);
                 }
                 catch (IndexOutOfRangeException)
                 {
@@ -366,7 +368,10 @@ namespace CPU6502Emulator
 
         void RTS(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(byte) (pointer - 1)]:X} is not yet implemented");
+            pointer = ReadShortFromSP(ref cycles);
+            cycles -= 3;
+            pointer += 1;
+            cycles--;
         }
 
         #endregion
@@ -638,6 +643,7 @@ namespace CPU6502Emulator
         }
 
         #endregion
+        
         void PushShortToSP(ushort value, ref int cycles)
         {
             if ((byte)(sp - 2) > sp)

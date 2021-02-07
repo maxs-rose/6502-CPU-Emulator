@@ -67,7 +67,7 @@ At some point I will also hopefully create a compiler for this as well.
   - Jumps & Calls
   - [x] JMP
   - [x] JSR
-  - [ ] RTS
+  - [x] RTS
   - Branches
   - [ ] BCC
   - [ ] BCS
