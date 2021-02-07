@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CPU6502Emulator
+﻿namespace CPU6502Emulator
 {
     public enum OpCode : byte
     {
@@ -82,5 +80,39 @@ namespace CPU6502Emulator
         PHP = 0x08,
         PLA = 0x68,
         PLP = 0x28,
+        
+        // AND
+        ANDI = 0x29,
+        ANDZ = 0x25,
+        ANDZX = 0x35,
+        ANDA = 0x2D,
+        ANDAX = 0x3D,
+        ANDAY = 0x39,
+        ANDIX = 0x21,
+        ANDIY = 0x31,
+        
+        // EOR
+        EORI = 0x49,
+        EORZ = 0x45,
+        EORZX = 0x55,
+        EORA = 0x4D,
+        EORAX = 0x5D,
+        EORAY = 0x59,
+        EORIX = 0x41,
+        EORIY = 0x51,
+        
+        // ORA
+        ORAI = 0x09,
+        ORAZ = 0x05,
+        ORAZX = 0x15,
+        ORAA = 0x0D,
+        ORAAX = 0x1D,
+        ORAAY = 0x19,
+        ORAIX = 0x01,
+        ORAIY = 0x11,
+        
+        // BIT
+        BITZ = 0x24,
+        BITA = 0x2C,
     }
 }

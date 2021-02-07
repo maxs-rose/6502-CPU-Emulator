@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Reflection;
-using System.Security.Authentication.ExtendedProtection;
 using CPU6502Emulator.Exceptions;
 
 namespace CPU6502Emulator
@@ -146,6 +144,40 @@ namespace CPU6502Emulator
             opcodeAray[(int) OpCode.PHP] = PHP;
             opcodeAray[(int) OpCode.PLA] = PLA;
             opcodeAray[(int) OpCode.PLP] = PLP;
+            
+            // AND
+            opcodeAray[(int) OpCode.ANDI] = ANDI;
+            opcodeAray[(int) OpCode.ANDZ] = ANDZ;
+            opcodeAray[(int) OpCode.ANDZX] = ANDZX;
+            opcodeAray[(int) OpCode.ANDA] = ANDA;
+            opcodeAray[(int) OpCode.ANDAX] = ANDAX;
+            opcodeAray[(int) OpCode.ANDAY] = ANDAY;
+            opcodeAray[(int) OpCode.ANDIX] = ANDIX;
+            opcodeAray[(int) OpCode.ANDIY] = ANDIY;
+            
+            // EOR
+            opcodeAray[(int) OpCode.EORI] = EORI;
+            opcodeAray[(int) OpCode.EORZ] = EORZ;
+            opcodeAray[(int) OpCode.EORZX] = EORZX;
+            opcodeAray[(int) OpCode.EORA] = EORA;
+            opcodeAray[(int) OpCode.EORAX] = EORAX;
+            opcodeAray[(int) OpCode.EORAY] = EORAY;
+            opcodeAray[(int) OpCode.EORIX] = EORIX;
+            opcodeAray[(int) OpCode.EORIY] = EORIY;
+            
+            // ORA
+            opcodeAray[(int) OpCode.ORAI] = ORAI;
+            opcodeAray[(int) OpCode.ORAZ] = ORAZ;
+            opcodeAray[(int) OpCode.ORAZX] = ORAZX;
+            opcodeAray[(int) OpCode.ORAA] = ORAA;
+            opcodeAray[(int) OpCode.ORAAX] = ORAAX;
+            opcodeAray[(int) OpCode.ORAAY] = ORAAY;
+            opcodeAray[(int) OpCode.ORAIX] = ORAIX;
+            opcodeAray[(int) OpCode.ORAIY] = ORAIY;
+            
+            // BIT
+            opcodeAray[(int) OpCode.BITZ] = BITZ;
+            opcodeAray[(int) OpCode.BITA] = BITA;
         }
 
         public static CPU PowerOn()
@@ -691,6 +723,152 @@ namespace CPU6502Emulator
             flags = (Flags)PopByteFromSP(ref cycles);
 
             cycles -= 2;
+        }
+
+        #endregion
+
+        #region AND
+
+        void ANDI(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void ANDZ(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void ANDZX(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void ANDA(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void ANDAX(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void ANDAY(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void ANDIX(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void ANDIY(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+
+        #endregion
+
+        #region EOR
+        
+        void EORI(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void EORZ(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void EORZX(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void EORA(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void EORAX(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void EORAY(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void EORIX(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void EORIY(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+
+        #endregion
+
+        #region ORA
+        
+        void ORAI(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void ORAZ(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void ORAZX(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void ORAA(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void ORAAX(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void ORAAY(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void ORAIX(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void ORAIY(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+
+        #endregion
+
+        #region BIT
+        
+        void BITZ(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+        }
+        
+        void BITA(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
         }
 
         #endregion
