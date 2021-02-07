@@ -27,6 +27,7 @@ namespace CPU6502Emulator
         private Memory memory;
 
         private delegate void OpcodeArray(ref ushort pointer, ref int cycles);
+
         private readonly OpcodeArray[] opcodeAray;
 
         // Registers
@@ -48,14 +49,14 @@ namespace CPU6502Emulator
         // n - negative (bit 7 is set)
 
         // all we want to do here is create the memory we dont need to init anything yet, that is the job if the power on/reset sequence
-        
+
         private CPU()
         {
             memory = new Memory(0xFFFF);
 
             opcodeAray = new OpcodeArray[0xFF];
             Array.Fill(opcodeAray,
-                (ref ushort pointer, ref int _) => throw new OpCodeNotImplementedException($"Opcode {this[(ushort)(pointer-1)]:X} is not implemented"));
+                (ref ushort pointer, ref int _) => throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented"));
 
             // LDA
             opcodeAray[(int) OpCode.LDAI] = LDAI;
@@ -67,39 +68,58 @@ namespace CPU6502Emulator
             opcodeAray[(int) OpCode.LDAAY] = LDAAY;
             opcodeAray[(int) OpCode.LDAIX] = LDAIX;
             opcodeAray[(int) OpCode.LDAIY] = LDAIY;
-            
+
             // LDX
             opcodeAray[(int) OpCode.LDXI] = LDXI;
             opcodeAray[(int) OpCode.LDXZ] = LDXZ;
             opcodeAray[(int) OpCode.LDXZY] = LDXZY;
             opcodeAray[(int) OpCode.LDXA] = LDXA;
             opcodeAray[(int) OpCode.LDXAY] = LDXAY;
-            
+
             // LDY
             opcodeAray[(int) OpCode.LDYI] = LDYI;
             opcodeAray[(int) OpCode.LDYZ] = LDYZ;
             opcodeAray[(int) OpCode.LDYZX] = LDYZX;
             opcodeAray[(int) OpCode.LDYA] = LDYA;
             opcodeAray[(int) OpCode.LDYAX] = LDYAX;
-            
+
             // JMP
             opcodeAray[(int) OpCode.JMPI] = JMPI;
             opcodeAray[(int) OpCode.JMPIN] = JMPIN;
-            
+
             // JSR
             opcodeAray[(int) OpCode.JSR] = JSR;
-            
+
             // INC
             opcodeAray[(int) OpCode.INCZ] = INCZ;
             opcodeAray[(int) OpCode.INCZX] = INCZX;
             opcodeAray[(int) OpCode.INCA] = INCA;
             opcodeAray[(int) OpCode.INCX] = INCX;
-            
+
             // INX
             opcodeAray[(int) OpCode.INX] = INX;
-            
+
             // INY
             opcodeAray[(int) OpCode.INY] = INY;
+
+            // STA
+            opcodeAray[(int) OpCode.STAZ] = STAZ;
+            opcodeAray[(int) OpCode.STAZX] = STAZX;
+            opcodeAray[(int) OpCode.STAA] = STAA;
+            opcodeAray[(int) OpCode.STAAX] = STAAX;
+            opcodeAray[(int) OpCode.STAAY] = STAAY;
+            opcodeAray[(int) OpCode.STAIX] = STAIX;
+            opcodeAray[(int) OpCode.STAIY] = STAIY;
+
+            // STX
+            opcodeAray[(int) OpCode.STXZ] = STXZ;
+            opcodeAray[(int) OpCode.STXZY] = STXZY;
+            opcodeAray[(int) OpCode.STXA] = STXA;
+
+            // STY
+            opcodeAray[(int) OpCode.STYZ] = STYZ;
+            opcodeAray[(int) OpCode.STYZX] = STYZX;
+            opcodeAray[(int) OpCode.STYA] = STYA;
         }
 
         public static CPU PowerOn()
@@ -309,7 +329,7 @@ namespace CPU6502Emulator
             pointer = ReadShort(ref pointer, ref cycles);
             cycles--; // extra cycle used to set pc
         }
-        
+
         void JMPIN(ref ushort pointer, ref int cycles)
         {
             pointer = ReadShort(ref pointer, ref cycles);
@@ -336,8 +356,8 @@ namespace CPU6502Emulator
         {
             var zAddress = ReadByte(pointer++, ref cycles);
             cycles--;
-            var data = (byte)(ReadByte(zAddress, ref cycles) + 1);
-            
+            var data = (byte) (ReadByte(zAddress, ref cycles) + 1);
+
             WriteByte(zAddress, data, ref cycles);
             SetLoadFlags(data, ref cycles);
         }
@@ -358,26 +378,26 @@ namespace CPU6502Emulator
             pointer++;
             var data = ReadByte(address, ref cycles);
             data += 1;
-            
+
             WriteByte(address, data, ref cycles);
             SetLoadFlags(data, ref cycles);
             cycles--;
         }
-        
+
         void INCX(ref ushort pointer, ref int cycles)
         {
             var address = ReadShort(ref pointer, ref cycles);
             pointer++;
 
             address += X;
-            address = (ushort)(address % 0x10000);
+            address = (ushort) (address % 0x10000);
             cycles--;
 
             var data = ReadByte(address, ref cycles);
             data += 1;
-            
+
             SetLoadFlags(data, ref cycles);
-            
+
             WriteByte(address, data, ref cycles);
             cycles--;
         }
@@ -394,7 +414,7 @@ namespace CPU6502Emulator
         }
 
         #endregion
-        
+
         #region INY
 
         void INY(ref ushort pointer, ref int cycles)
@@ -406,12 +426,89 @@ namespace CPU6502Emulator
 
         #endregion
 
+        #region STA
+
+        void STAZ(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+        }
+
+        void STAZX(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+        }
+
+        void STAA(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+        }
+
+        void STAAX(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+        }
+
+        void STAAY(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+        }
+
+        void STAIX(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+        }
+
+        void STAIY(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+        }
+
+        #endregion
+
+        #region STX
+
+        void STXZ(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+        }
+
+        void STXZY(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+        }
+
+        void STXA(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+        }
+
+        #endregion
+
+        #region STY
+
+        void STYZ(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+        }
+
+        void STYZX(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+        }
+
+        void STYA(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+        }
+
+        #endregion
+
         void PushShortToSP(ushort value, ref int cycles)
         {
             if (sp < 0x0100)
                 throw new StackOverflowException();
-        
-        
+
+
             memory.WriteStackShort(value, ref sp, ref cycles);
             cycles -= 2;
         }
@@ -420,7 +517,7 @@ namespace CPU6502Emulator
         {
             if (sp >= 0x01FE)
                 throw new StackUnderflowException();
-            
+
             return memory.ReadStackShort(ref sp, ref cycles);
         }
 
@@ -428,7 +525,7 @@ namespace CPU6502Emulator
         {
             if (sp < 0x0100)
                 throw new StackOverflowException();
-            
+
             memory.WriteStackByte(value, ref sp, ref cycles);
         }
 
@@ -436,7 +533,7 @@ namespace CPU6502Emulator
         {
             if (sp >= 0x01FF)
                 throw new StackUnderflowException();
-            
+
             return memory.PopStack(ref sp, ref cycles);
         }
 
@@ -456,9 +553,9 @@ namespace CPU6502Emulator
             address %= 0x100; // if we have escaped the 0 page then wrap around back to the start of it
             cycles--;
 
-            return (byte)address;
+            return (byte) address;
         }
-        
+
         /// <summary>
         /// Load byte with Zero X mode
         /// </summary>
@@ -489,7 +586,7 @@ namespace CPU6502Emulator
             pointer++;
             return ReadByte(address, ref cycles);
         }
-        
+
         /// <summary>
         /// Load byte with absolute X mode
         /// </summary>
