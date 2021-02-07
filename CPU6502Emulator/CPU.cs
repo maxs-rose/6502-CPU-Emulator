@@ -190,8 +190,15 @@ namespace CPU6502Emulator
 
         void SetLoadFlags(int value, ref int cycles)
         {
-            flags |= (value & 0b10000000) > 0 ? Flags.N : 0;
-            flags |= value == 0 ? Flags.Z : 0;
+            if ((value & 0b10000000) > 0)
+                flags |= Flags.N;
+            else
+                flags &= ~Flags.N;
+            
+            if (value == 0)
+                flags |= Flags.Z;
+            else
+                flags &= ~Flags.Z;
 
             cycles--;
         }
