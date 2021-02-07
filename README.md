@@ -42,8 +42,8 @@ At some point I will also hopefully create a compiler for this as well.
   - [x] PLP
   - Logical Ops
   - [x] AND
-  - [ ] EOR
-  - [ ] ORA
+  - [x] EOR
+  - [x] ORA
   - [ ] BIT
   - Arithmetic Ops
   - [ ] ADC
