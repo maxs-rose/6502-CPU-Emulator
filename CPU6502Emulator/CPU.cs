@@ -33,7 +33,7 @@ namespace CPU6502Emulator
 
         // Registers
         public ushort pc;
-        public ushort sp; // points to system stack
+        public byte sp; // points to system stack
         public byte A;
         public byte X;
 
@@ -145,7 +145,7 @@ namespace CPU6502Emulator
             this[0xFFFC] = 0x00;
             this[0xFFFD] = 0x01;
 
-            sp = 0x01FF;
+            sp = 0xFF;
 
             flags = 0;
             A = X = Y = 0;
@@ -603,7 +603,9 @@ namespace CPU6502Emulator
         }
         void TSX(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"Opcode {this[(ushort)(pointer-1)]:X} is not yet implemented");
+            X = sp;
+            SetLoadFlags(X, ref cycles);
+            cycles--;
         }
         void TXA(ref ushort pointer, ref int cycles)
         {

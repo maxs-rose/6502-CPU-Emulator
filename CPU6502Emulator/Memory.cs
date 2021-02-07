@@ -15,25 +15,25 @@
                 memory[i] = 0;
         }
 
-        public void WriteStackByte(byte value, ref ushort address, ref int cycles)
+        public void WriteStackByte(byte value, ref byte address, ref int cycles)
         {
             this[address--] = value;
             cycles--;
         }
         
-        public void WriteStackShort(ushort value, ref ushort loAddress, ref int cycles)
+        public void WriteStackShort(ushort value, ref byte loAddress, ref int cycles)
         {
             WriteStackByte((byte)(value >> 8), ref loAddress, ref cycles);
             WriteStackByte((byte)(value & 0xFF), ref loAddress, ref cycles);
         }
 
-        public byte PopStack(ref ushort address, ref int cycles)
+        public byte PopStack(ref byte address, ref int cycles)
         {
             cycles--;
             return this[address++];
         }
         
-        public ushort ReadStackShort(ref ushort loAddress, ref int cycles)
+        public ushort ReadStackShort(ref byte loAddress, ref int cycles)
         {
             ushort value = PopStack(ref loAddress, ref cycles);
             value |= (ushort)(PopStack(ref loAddress, ref cycles) << 8);
