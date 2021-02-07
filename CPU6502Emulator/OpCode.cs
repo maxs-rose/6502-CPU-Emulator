@@ -76,5 +76,11 @@ namespace CPU6502Emulator
         TXA = 0x8A,
         TXS = 0x9A,
         TYA = 0x98,
+        
+        // Stack
+        PHA = 0x48,
+        PHP = 0x08,
+        PLA = 0x68,
+        PLP = 0x28,
     }
 }
