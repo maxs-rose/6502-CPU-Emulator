@@ -121,6 +121,14 @@ namespace CPU6502Emulator
             opcodeAray[(int) OpCode.STYZ] = STYZ;
             opcodeAray[(int) OpCode.STYZX] = STYZX;
             opcodeAray[(int) OpCode.STYA] = STYA;
+            
+            // Transfers
+            opcodeAray[(int) OpCode.TAX] = TAX;
+            opcodeAray[(int) OpCode.TAY] = TAY;
+            opcodeAray[(int) OpCode.TSX] = TSX;
+            opcodeAray[(int) OpCode.TXA] = TXA;
+            opcodeAray[(int) OpCode.TXS] = TXS;
+            opcodeAray[(int) OpCode.TYA] = TYA;
         }
 
         public static CPU PowerOn()
@@ -578,6 +586,35 @@ namespace CPU6502Emulator
 
         #endregion
 
+
+        #region Transfers
+
+        void TAX(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort)(pointer-1)]:X} is not yet implemented");
+        }
+        void TAY(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort)(pointer-1)]:X} is not yet implemented");
+        }
+        void TSX(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort)(pointer-1)]:X} is not yet implemented");
+        }
+        void TXA(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort)(pointer-1)]:X} is not yet implemented");
+        }
+        void TXS(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort)(pointer-1)]:X} is not yet implemented");
+        }
+        void TYA(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"Opcode {this[(ushort)(pointer-1)]:X} is not yet implemented");
+        }
+
+        #endregion
         void PushShortToSP(ushort value, ref int cycles)
         {
             if (sp < 0x0100)

@@ -63,5 +63,13 @@
         
         // INY
         INY = 0xC8,
+        
+        // Transfers
+        TAX = 0xAA,
+        TAY = 0xA8,
+        TSX = 0xBA,
+        TXA = 0x8A,
+        TXS = 0x9A,
+        TYA = 0x98,
     }
 }
