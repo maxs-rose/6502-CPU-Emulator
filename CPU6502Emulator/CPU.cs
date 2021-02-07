@@ -430,37 +430,83 @@ namespace CPU6502Emulator
 
         void STAZ(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+            var location = ReadByte(pointer++, ref cycles);
+            WriteByte(location, A, ref cycles);
+            cycles--;
         }
 
         void STAZX(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+            var location = ReadByte(pointer++, ref cycles);
+            location += X;
+            cycles--;
+    
+            WriteByte(location, A, ref cycles);
+            
+            cycles--;
         }
 
         void STAA(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+            var location = ReadShort(ref pointer, ref cycles);
+            WriteByte(location, A, ref cycles);
+
+            pointer++;
+            cycles--;
         }
 
         void STAAX(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+            var location = ReadShort(ref pointer, ref cycles);
+            location += X;
+            location = (ushort) (location % 0x10000);
+            cycles--;
+            
+            WriteByte(location, A, ref cycles);
+
+            pointer++;
+            cycles--;
         }
 
         void STAAY(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+            var location = ReadShort(ref pointer, ref cycles);
+            location += Y;
+            location = (ushort) (location % 0x10000);
+            cycles--;
+            
+            WriteByte(location, A, ref cycles);
+
+            pointer++;
+            cycles--;
         }
 
         void STAIX(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+            ushort location = ReadByte(pointer++, ref cycles);
+            location += X;
+            location = (ushort) (location % 0x100);
+            cycles--;
+
+            var storeAt = ReadShort(ref location, ref cycles);
+            
+            WriteByte(storeAt, A, ref cycles);
+
+            cycles--;
         }
 
         void STAIY(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+            ushort zpLocation = ReadByte(pointer++, ref cycles);
+            var storeAt = ReadShort(ref zpLocation, ref cycles);
+            
+            storeAt += Y;
+            storeAt = (ushort) (storeAt % 0x10000);
+            cycles--;
+            
+            WriteByte(storeAt, A, ref cycles);
+
+            cycles--;
         }
 
         #endregion

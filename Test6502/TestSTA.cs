@@ -125,12 +125,12 @@ namespace Test6502
             Assert.AreEqual(0x0103, cpu.pc);
         }
 
-        [TestCase(0x37, 0xFF, 1, (ushort)0x0)]
-        [TestCase(0x37, 0x0FD, 1, (ushort)0xFE)]
-        [TestCase(0x0, 0xFF, 1, (ushort)0x0)]
-        [TestCase(0x0, 0x0FD, 1, (ushort)0xFE)]
-        [TestCase(0x80, 0xFF, 1, (ushort)0x0)]
-        [TestCase(0x80, 0x0FD, 1, (ushort)0xFE)]
+        [TestCase(0x37, 0xFF, 1, (ushort)0x4600)]
+        [TestCase(0x37, 0x0FD, 1, (ushort)0xF0)]
+        [TestCase(0x0, 0xFF, 1, (ushort)0x4600)]
+        [TestCase(0x0, 0x0FD, 1, (ushort)0xF0)]
+        [TestCase(0x80, 0xFF, 1, (ushort)0x4600)]
+        [TestCase(0x80, 0x0FD, 1, (ushort)0xF0)]
         public void StoreIndirectX(byte value, byte zpAddress, byte x, ushort address)
         {
             var preFlags = (Flags) 7;
@@ -148,15 +148,15 @@ namespace Test6502
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(value, cpu[address]);
             Assert.AreEqual(preFlags, cpu.flags);
-            Assert.AreEqual(0x0103, cpu.pc);
+            Assert.AreEqual(0x0102, cpu.pc);
         }
 
         [TestCase(0x37, 0x05, 1, (ushort)0x1056, (ushort)0x1057)]
-        [TestCase(0x37, 0x0FD, 1, (ushort)0x00FF, (ushort)0x0100)]
+        [TestCase(0x37, 0xFD, 1, (ushort)0x02FF, (ushort)0x0300)]
         [TestCase(0x0, 0x05, 1, (ushort)0x1056, (ushort)0x1057)]
-        [TestCase(0x0, 0x0FD, 1, (ushort)0x00FF, (ushort)0x0100)]
+        [TestCase(0x0, 0xFD, 1, (ushort)0x02FF, (ushort)0x0300)]
         [TestCase(0x80, 0x05, 1, (ushort)0x1056, (ushort)0x1057)]
-        [TestCase(0x80, 0x0FD, 1, (ushort)0x00FF, (ushort)0x0100)]
+        [TestCase(0x80, 0xFD, 1, (ushort)0x02FF, (ushort)0x0300)]
         public void StoreIndirectY(byte value, byte zpAddress, byte y, ushort address, ushort finalAddress)
         {
             var preFlags = (Flags) 7;
@@ -174,7 +174,7 @@ namespace Test6502
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(value, cpu[finalAddress]);
             Assert.AreEqual(preFlags, cpu.flags);
-            Assert.AreEqual(0x0103, cpu.pc);
+            Assert.AreEqual(0x0102, cpu.pc);
         }
     }
 }

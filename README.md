@@ -25,7 +25,7 @@ At some point I will also hopefully create a compiler for this as well.
   - [x] LDX
   - [x] LDY
   - Store Ops
-  - [ ] STA
+  - [x] STA
   - [ ] STX
   - [ ] STY
   - Transfer Ops
