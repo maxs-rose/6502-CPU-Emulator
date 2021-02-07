@@ -27,7 +27,7 @@ At some point I will also hopefully create a compiler for this as well.
   - Store Ops
   - [x] STA
   - [x] STX
-  - [ ] STY
+  - [x] STY
   - Transfer Ops
   - [ ] TAX
   - [ ] TAY

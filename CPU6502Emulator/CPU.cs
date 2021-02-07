@@ -549,17 +549,31 @@ namespace CPU6502Emulator
 
         void STYZ(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+            var zpAddress = ReadByte(pointer++, ref cycles);
+            WriteByte(zpAddress, Y, ref cycles);
+
+            cycles--;
         }
 
         void STYZX(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+            var zpAddress = ReadByte(pointer++, ref cycles);
+            
+            zpAddress += X;
+            cycles--;
+            
+            WriteByte(zpAddress, Y, ref cycles);
+            
+            cycles--;
         }
 
         void STYA(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented");
+            var address = ReadShort(ref pointer, ref cycles);
+            WriteByte(address, Y, ref cycles);
+
+            pointer++;
+            cycles--;
         }
 
         #endregion
