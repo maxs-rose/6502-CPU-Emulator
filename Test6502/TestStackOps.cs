@@ -29,7 +29,7 @@ namespace Test6502
             var cycles = 3;
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
-            Assert.AreEqual(value, cpu[--cpu.sp]);
+            Assert.AreEqual(value, cpu[++cpu.sp]);
             Assert.AreEqual(0x0101, cpu.pc);
             Assert.AreEqual(preFlags, cpu.flags);
         }
@@ -47,7 +47,7 @@ namespace Test6502
             var cycles = 3;
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
-            Assert.AreEqual(cpu.flags, cpu[--cpu.sp]);
+            Assert.AreEqual(cpu.flags, cpu[++cpu.sp]);
             Assert.AreEqual(0x0101, cpu.pc);
             Assert.AreEqual(preFlags, cpu.flags);
         }

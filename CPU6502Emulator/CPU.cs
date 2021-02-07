@@ -48,6 +48,13 @@ namespace CPU6502Emulator
         // b - break
         // v - overflow (looks at bits 6 and 7 to check for validness, ie 0111 1111 + 0111 1111 != 1111 1111 as that is negative)
         // n - negative (bit 7 is set)
+        public bool C => (flags & Flags.C) > 0;
+        public bool Z => (flags & Flags.Z) > 0;
+        public bool I => (flags & Flags.I) > 0;
+        public bool D => (flags & Flags.D) > 0;
+        public bool B => (flags & Flags.B) > 0;
+        public bool V => (flags & Flags.V) > 0;
+        public bool N => (flags & Flags.N) > 0;
 
         // all we want to do here is create the memory we dont need to init anything yet, that is the job if the power on/reset sequence
 
@@ -132,6 +139,12 @@ namespace CPU6502Emulator
             opcodeAray[(int) OpCode.TXA] = TXA;
             opcodeAray[(int) OpCode.TXS] = TXS;
             opcodeAray[(int) OpCode.TYA] = TYA;
+            
+            // Stack
+            opcodeAray[(int) OpCode.PHA] = PHA;
+            opcodeAray[(int) OpCode.PHP] = PHP;
+            opcodeAray[(int) OpCode.PLA] = PLA;
+            opcodeAray[(int) OpCode.PLP] = PLP;
         }
 
         public static CPU PowerOn()
@@ -610,7 +623,6 @@ namespace CPU6502Emulator
 
         #endregion
 
-
         #region Transfers
 
         void TAX(ref ushort pointer, ref int cycles)
@@ -647,6 +659,30 @@ namespace CPU6502Emulator
             A = Y;
             SetLoadFlags(A, ref cycles);
             cycles--;
+        }
+
+        #endregion
+
+        #region Stack
+
+        void PHA(ref ushort pointer, ref int cycles)
+        {
+            PushByteToSP(A, ref cycles);
+            cycles--; // extra one to read A?
+
+            cycles--; // increment pc
+        }
+        void PHP(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X} is not yet implemented");
+        }
+        void PLA(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X} is not yet implemented");
+        }
+        void PLP(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X} is not yet implemented");
         }
 
         #endregion
