@@ -628,9 +628,8 @@ namespace CPU6502Emulator
         #endregion
         void PushShortToSP(ushort value, ref int cycles)
         {
-            if (sp < 0x0100)
+            if ((byte)(sp - 2) > sp)
                 throw new StackOverflowException();
-
 
             memory.WriteStackShort(value, ref sp, ref cycles);
             cycles -= 2;
@@ -638,7 +637,7 @@ namespace CPU6502Emulator
 
         ushort ReadShortFromSP(ref int cycles)
         {
-            if (sp >= 0x01FE)
+            if ((byte)(sp + 2) < sp)
                 throw new StackUnderflowException();
 
             return memory.ReadStackShort(ref sp, ref cycles);
@@ -646,7 +645,7 @@ namespace CPU6502Emulator
 
         void PushByteToSP(byte value, ref int cycles)
         {
-            if (sp < 0x0100)
+            if ((byte)(sp - 1) > sp)
                 throw new StackOverflowException();
 
             memory.WriteStackByte(value, ref sp, ref cycles);
@@ -654,7 +653,7 @@ namespace CPU6502Emulator
 
         byte ReachByteFromSP(ref int cycles)
         {
-            if (sp >= 0x01FF)
+            if ((byte)(sp + 1) < sp)
                 throw new StackUnderflowException();
 
             return memory.PopStack(ref sp, ref cycles);
