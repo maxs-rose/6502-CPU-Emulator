@@ -36,10 +36,10 @@ At some point I will also hopefully create a compiler for this as well.
   - Stack Ops
   - [x] TSX
   - [x] TXS
-  - [ ] PHA
-  - [ ] PHP
-  - [ ] PLA
-  - [ ] PLP
+  - [x] PHA
+  - [x] PHP
+  - [x] PLA
+  - [x] PLP
   - Logical Ops
   - [ ] AND
   - [ ] EOR
