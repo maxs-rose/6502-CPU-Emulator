@@ -688,7 +688,9 @@ namespace CPU6502Emulator
         }
         void PLP(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X} is not yet implemented");
+            flags = (Flags)PopByteFromSP(ref cycles);
+
+            cycles -= 2;
         }
 
         #endregion
