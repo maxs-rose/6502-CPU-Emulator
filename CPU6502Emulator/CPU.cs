@@ -591,7 +591,9 @@ namespace CPU6502Emulator
 
         void TAX(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"Opcode {this[(ushort)(pointer-1)]:X} is not yet implemented");
+            X = A;
+            SetLoadFlags(X, ref cycles);
+            cycles--;
         }
         void TAY(ref ushort pointer, ref int cycles)
         {
