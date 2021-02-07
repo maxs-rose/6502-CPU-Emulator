@@ -29,13 +29,13 @@ At some point I will also hopefully create a compiler for this as well.
   - [x] STX
   - [x] STY
   - Transfer Ops
-  - [ ] TAX
-  - [ ] TAY
-  - [ ] TXA
-  - [ ] TYA
+  - [x] TAX
+  - [x] TAY
+  - [x] TXA
+  - [x] TYA
   - Stack Ops
-  - [ ] TSX
-  - [ ] TXS
+  - [x] TSX
+  - [x] TXS
   - [ ] PHA
   - [ ] PHP
   - [ ] PLA
