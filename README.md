@@ -44,7 +44,7 @@ At some point I will also hopefully create a compiler for this as well.
   - [x] AND
   - [x] EOR
   - [x] ORA
-  - [ ] BIT
+  - [x] BIT
   - Arithmetic Ops
   - [ ] ADC
   - [ ] SBC
