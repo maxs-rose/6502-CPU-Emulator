@@ -87,6 +87,9 @@ namespace CPU6502Emulator
             // JMP
             opcodeAray[(int) OpCode.JMPI] = JMPI;
             opcodeAray[(int) OpCode.JMPIN] = JMPIN;
+            
+            // RTS
+            opcodeAray[(int) OpCode.RTS] = RTS;
 
             // JSR
             opcodeAray[(int) OpCode.JSR] = JSR;
@@ -355,6 +358,15 @@ namespace CPU6502Emulator
             var address = ReadShort(ref pointer, ref cycles);
             PushShortToSP(pointer, ref cycles);
             pointer = address;
+        }
+
+        #endregion
+
+        #region RTS
+
+        void RTS(ref ushort pointer, ref int cycles)
+        {
+            throw new OpCodeNotImplementedException($"OpCode {this[(byte) (pointer - 1)]:X} is not yet implemented");
         }
 
         #endregion

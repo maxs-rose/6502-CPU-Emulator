@@ -28,7 +28,7 @@ namespace Test6502
             cpu[0x0102] = (byte)(address >> 8);
             cpu[address] = (byte)OpCode.RTS;
 
-            var cycles = 6;
+            var cycles = 6 + 6; // JSR + RTS
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual(0x0103, cpu.pc);
