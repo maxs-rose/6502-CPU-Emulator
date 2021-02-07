@@ -59,7 +59,7 @@ namespace Test6502
         [TestCase(0x80, Flags.N)]
         public void PLA(byte value, Flags flags)
         {
-            cpu[cpu.sp++] = value;
+            cpu[cpu.sp--] = value;
             cpu[0x0100] = (byte)OpCode.PLA;
 
             var cycles = 4;
@@ -79,7 +79,7 @@ namespace Test6502
         public void PLP(Flags flags)
         {
             cpu.flags = ~cpu.flags;
-            cpu[cpu.sp++] = (byte)flags;
+            cpu[cpu.sp--] = (byte)flags;
             cpu[0x0100] = (byte)OpCode.PLP;
 
             var cycles = 4;

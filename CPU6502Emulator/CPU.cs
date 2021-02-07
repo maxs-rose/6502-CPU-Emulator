@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Security.Authentication.ExtendedProtection;
 using CPU6502Emulator.Exceptions;
 
 namespace CPU6502Emulator
@@ -679,7 +680,11 @@ namespace CPU6502Emulator
         }
         void PLA(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X} is not yet implemented");
+            A = PopByteFromSP(ref cycles);
+
+            SetLoadFlags(A, ref cycles);
+            
+            cycles--;
         }
         void PLP(ref ushort pointer, ref int cycles)
         {
@@ -713,11 +718,12 @@ namespace CPU6502Emulator
             memory.WriteStackByte(value, ref sp, ref cycles);
         }
 
-        byte ReachByteFromSP(ref int cycles)
+        byte PopByteFromSP(ref int cycles)
         {
             if ((byte)(sp + 1) < sp)
                 throw new StackUnderflowException();
 
+            cycles--;
             return memory.PopStack(ref sp, ref cycles);
         }
 
