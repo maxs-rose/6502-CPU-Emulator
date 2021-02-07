@@ -609,7 +609,9 @@ namespace CPU6502Emulator
         }
         void TXA(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"Opcode {this[(ushort)(pointer-1)]:X} is not yet implemented");
+            A = X;
+            SetLoadFlags(A, ref cycles);
+            cycles--;
         }
         void TXS(ref ushort pointer, ref int cycles)
         {
