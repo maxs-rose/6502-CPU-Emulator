@@ -28,7 +28,7 @@ namespace Test6502
             //      Store the Y register @ 0x6938 (cpu[0x6938] = 3, flags = 0)
             //      Return from subroutine (pc = 0x0106)
             // Final Expected State:
-            //      A = 2, X = 5, Y = 3
+            //      A = 2, X = 6, Y = 3
             //      cpu[0x02] = 0x02, cpu[0x6938] = 0x03, cpu[0x6937] = 0xF2
             //      pc = 0x0106, flags = 0, sp = 0xFF
 
@@ -50,16 +50,17 @@ namespace Test6502
             cpu[0x9613] = 0x38;
             cpu[0x9614] = 0x69;
             cpu[0x9615] = (byte) OpCode.RTS;
+            cpu[0x0106] = (byte) OpCode.INX;
 
-            var cycles = 6 + 6 + 2 + 3 + 4 + 6;
+            var cycles = 6 + 6 + 2 + 3 + 4 + 6 + 2;
             
             cpu.RunProgram(ref cycles);
             Assert.AreEqual(0, cycles);
             Assert.AreEqual((Flags)0, cpu.flags);
             Assert.AreEqual(0xFF, cpu.sp);
-            Assert.AreEqual(0x0106, cpu.pc);
+            Assert.AreEqual(0x0107, cpu.pc);
             Assert.AreEqual(2, cpu.A);
-            Assert.AreEqual(5, cpu.X);
+            Assert.AreEqual(6, cpu.X);
             Assert.AreEqual(3, cpu.Y);
             Assert.AreEqual(0x02, cpu[0x02]);
             Assert.AreEqual(0x03, cpu[0x6938]);
