@@ -1,4 +1,6 @@
-﻿namespace CPU6502Emulator
+﻿using System;
+
+namespace CPU6502Emulator
 {
     public enum OpCode : byte
     {
@@ -48,6 +50,9 @@
         // JMP
         JMPI = 0x4C,
         JMPIN = 0x6C,
+        
+        // RTS
+        RTS = 0x60,
         
         // JSR
         JSR = 0x20,
