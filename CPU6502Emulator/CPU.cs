@@ -1,4 +1,5 @@
 ﻿using System;
+using CPU6502Emulator.Exceptions;
 
 namespace CPU6502Emulator
 {
@@ -54,7 +55,7 @@ namespace CPU6502Emulator
 
             opcodeAray = new OpcodeArray[0xFF];
             Array.Fill(opcodeAray,
-                (ref ushort pointer, ref int _) => throw new Exception($"Opcode not recognised {pointer:x8}"));
+                (ref ushort pointer, ref int _) => throw new OpCodeNotImplementedException($"Opcode {pointer:x8} is not implemented"));
 
             // LDA
             opcodeAray[(int) OpCode.LDAI] = LDAI;
@@ -115,7 +116,7 @@ namespace CPU6502Emulator
             this[0xFFFC] = 0x00;
             this[0xFFFD] = 0x01;
 
-            sp = 0xFF;
+            sp = 0x01FF;
 
             flags = 0;
             A = X = Y = 0;
@@ -173,11 +174,11 @@ namespace CPU6502Emulator
                 }
                 catch (IndexOutOfRangeException)
                 {
-                    throw new IndexOutOfRangeException($"Opcode does not exist in 6502!");
+                    throw new InvalidOpCodeException($"Opcode {pc--:x8} does not exist in 6502!");
                 }
 
                 if (cycles < 0)
-                    throw new Exception("Not enough cycles!");
+                    throw new NotEnoughCyclesException("Not enough cycles!");
             }
         }
 
@@ -407,8 +408,36 @@ namespace CPU6502Emulator
 
         void PushShortToSP(ushort value, ref int cycles)
         {
+            if (sp < 0x0100)
+                throw new StackOverflowException();
+        
+        
             memory.WriteStackShort(value, ref sp, ref cycles);
             cycles -= 2;
+        }
+
+        ushort ReadShortFromSP(ref int cycles)
+        {
+            if (sp >= 0x01FE)
+                throw new StackUnderflowException();
+            
+            return memory.ReadStackShort(ref sp, ref cycles);
+        }
+
+        void PushByteToSP(byte value, ref int cycles)
+        {
+            if (sp < 0x0100)
+                throw new StackOverflowException();
+            
+            memory.WriteStackByte(value, ref sp, ref cycles);
+        }
+
+        byte ReachByteFromSP(ref int cycles)
+        {
+            if (sp >= 0x01FF)
+                throw new StackUnderflowException();
+            
+            return memory.PopStack(ref sp, ref cycles);
         }
 
         /// <summary>
