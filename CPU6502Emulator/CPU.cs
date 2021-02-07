@@ -792,42 +792,59 @@ namespace CPU6502Emulator
         
         void EORI(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = ReadByte(pointer++, ref cycles);
+            A ^= data;
+            SetLoadFlags(A, ref cycles);
         }
         
         void EORZ(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = LoadZero(ref pointer, ref cycles);
+            A ^= data;
+            SetLoadFlags(A, ref cycles);
         }
         
         void EORZX(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = LoadZeroX(ref pointer, ref cycles);
+            cycles++;
+            A ^= data;
+            SetLoadFlags(A, ref cycles);
         }
         
         void EORA(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = LoadAbsolute(ref pointer, ref cycles);
+            A ^= data;
+            SetLoadFlags(A, ref cycles);
         }
         
         void EORAX(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = LoadAbsoluteX(ref pointer, ref cycles);
+            A ^= data;
+            SetLoadFlags(A, ref cycles);
         }
         
         void EORAY(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = LoadAbsoluteY(ref pointer, ref cycles);
+            A ^= data;
+            SetLoadFlags(A, ref cycles);
         }
         
         void EORIX(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = LoadIndirectX(ref pointer, ref cycles);
+            A ^= data;
+            SetLoadFlags(A, ref cycles);
         }
         
         void EORIY(ref ushort pointer, ref int cycles)
         {
-            throw new OpCodeNotImplementedException($"OpCode {this[(ushort)(pointer - 1)]:X}");
+            var data = LoadIndirectY(ref pointer, ref cycles);
+            A ^= data;
+            SetLoadFlags(A, ref cycles);
         }
 
         #endregion
