@@ -4,62 +4,88 @@
 
 This is my attempt at creating a 6502 CPU emulator in .NET Core
 
-Status of completion:
+At some point I will also hopefully create a compiler for this as well.
+
+## Resources
+- [obelisk](http://www.obelisk.me.uk/6502/i)
+- [C64 Wiki](https://www.c64-wiki.com/)
+
+## Things Learned
+- Emulating even a simple processor is very time consuming
+- Understanding all of the addressing modes is hard
+
+
+---
+
+## Status of completion
 
 - [ ] Instructions
+  - Load Ops
   - [x] LDA
   - [x] LDX
   - [x] LDY
-  - [x] JMP
-  - [x] JSR
-  - [x] INC
-  - [x] INX
-  - [x] INY
-  - [ ] ADC
-  - [ ] AND
-  - [ ] ASL
-  - [ ] BCC
-  - [ ] BCS
-  - [ ] BEQ
-  - [ ] BIT
-  - [ ] BMI
-  - [ ] BNE
-  - [ ] BPL
-  - [ ] BRK
-  - [ ] BVC
-  - [ ] BVS
-  - [ ] CLC
-  - [ ] CLD
-  - [ ] CLI
-  - [ ] CLV
-  - [ ] CMP
-  - [ ] CPX
-  - [ ] CPY
-  - [ ] DEC
-  - [ ] DEX
-  - [ ] DEY
-  - [ ] EOR
-  - [ ] LSR
-  - [ ] NOP
-  - [ ] ORA
+  - Store Ops
+  - [ ] STA
+  - [ ] STX
+  - [ ] STY
+  - Transfer Ops
+  - [ ] TAX
+  - [ ] TAY
+  - [ ] TXA
+  - [ ] TYA
+  - Stack Ops
+  - [ ] TSX
+  - [ ] TXS
   - [ ] PHA
   - [ ] PHP
   - [ ] PLA
   - [ ] PLP
+  - Logical Ops
+  - [ ] AND
+  - [ ] EOR
+  - [ ] ORA
+  - [ ] BIT
+  - Arithmetic Ops
+  - [ ] ADC
+  - [ ] SBC
+  - [ ] CMP
+  - [ ] CPX
+  - [ ] CPY
+  - Increment
+  - [x] INC
+  - [x] INX
+  - [x] INY
+  - Decrement
+  - [ ] DEC
+  - [ ] DEX
+  - [ ] DEY
+  - Shifts
+  - [ ] ASL
+  - [ ] LSR
   - [ ] ROL
   - [ ] ROR
-  - [ ] RTI
+  - Jumps & Calls
+  - [x] JMP
+  - [x] JSR
   - [ ] RTS
-  - [ ] SBC
+  - Branches
+  - [ ] BCC
+  - [ ] BCS
+  - [ ] BEQ
+  - [ ] BMI
+  - [ ] BNE
+  - [ ] BPL
+  - [ ] BVC
+  - [ ] BVS
+  - Status Flags Changes
+  - [ ] CLC
+  - [ ] CLD
+  - [ ] CLI
+  - [ ] CLV
   - [ ] SEC
   - [ ] SED
   - [ ] SEI
-  - [ ] STA
-  - [ ] STX
-  - [ ] STY
-  - [ ] TAX
-  - [ ] TAY
-  - [ ] TSX
-  - [ ] TXA
-  - [ ] TXS
-  - [ ] TYA
+  - System Functions
+  - [ ] BRK
+  - [ ] NOP
+  - [ ] RTI

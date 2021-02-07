@@ -26,6 +26,25 @@
         LDYA = 0xAC,
         LDYAX = 0xBC,
         
+        // STA
+        STAZ = 0x85,
+        STAZX = 0x95,
+        STAA = 0x8D,
+        STAAX = 0x9D,
+        STAAY = 0x99,
+        STAIX = 0x81,
+        STAIY = 0x91,
+        
+        // STX
+        STXZ = 0x86,
+        STXZY = 0x96,
+        STXA = 0x8E,
+        
+        // STY
+        STYZ = 0x84,
+        STYZX = 0x94,
+        STYA = 0x8C,
+        
         // JMP
         JMPI = 0x4C,
         JMPIN = 0x6C,

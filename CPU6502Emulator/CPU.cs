@@ -55,7 +55,7 @@ namespace CPU6502Emulator
 
             opcodeAray = new OpcodeArray[0xFF];
             Array.Fill(opcodeAray,
-                (ref ushort pointer, ref int _) => throw new OpCodeNotImplementedException($"Opcode {pointer:x8} is not implemented"));
+                (ref ushort pointer, ref int _) => throw new OpCodeNotImplementedException($"Opcode {this[(ushort)(pointer-1)]:X} is not implemented"));
 
             // LDA
             opcodeAray[(int) OpCode.LDAI] = LDAI;
