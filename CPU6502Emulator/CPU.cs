@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CPU6502Emulator.Exceptions;
 
 namespace CPU6502Emulator
@@ -24,11 +25,11 @@ namespace CPU6502Emulator
     public class CPU
     {
         // Memory
-        private Memory memory;
+        private Memory memory = new Memory(0xFFFF);
 
         private delegate void OpcodeArray(ref ushort pointer, ref int cycles);
 
-        private readonly OpcodeArray[] opcodeAray;
+        private readonly OpcodeArray[] opcodeAray = new OpcodeArray[0xFF];
 
         // Registers
         public ushort pc;
@@ -59,16 +60,12 @@ namespace CPU6502Emulator
 
         private CPU()
         {
-            memory = new Memory(0xFFFF);
-
-            opcodeAray = new OpcodeArray[0xFF];
             Array.Fill(opcodeAray,
                 (ref ushort pointer, ref int _) => throw new OpCodeNotImplementedException($"Opcode {this[(ushort) (pointer - 1)]:X} is not implemented"));
 
             // LDA
             opcodeAray[(int) OpCode.LDAI] = LDAI;
             opcodeAray[(int) OpCode.LDAZ] = LDAZ;
-            opcodeAray[(int) OpCode.LDAZX] = LDAZX;
             opcodeAray[(int) OpCode.LDAZX] = LDAZX;
             opcodeAray[(int) OpCode.LDAA] = LDAA;
             opcodeAray[(int) OpCode.LDAAX] = LDAAX;
@@ -261,7 +258,7 @@ namespace CPU6502Emulator
                 }
                 catch (IndexOutOfRangeException)
                 {
-                    throw new InvalidOpCodeException($"Opcode {pc--:x8} does not exist in 6502!");
+                    throw new InvalidOpCodeException($"Opcode {this[(ushort)(pc - 1)]:x8} does not exist in 6502!");
                 }
 
                 if (cycles < 0)

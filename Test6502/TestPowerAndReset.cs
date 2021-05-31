@@ -1,6 +1,7 @@
 ﻿using System;
 using CPU6502Emulator;
 using CPU6502Emulator.Exceptions;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Test6502
@@ -12,10 +13,10 @@ namespace Test6502
         public void PowerOn()
         {
             var result = CPU.PowerOn();
-            
-            Assert.NotNull(result);
-            Assert.AreEqual(0, result.pc);
-            Assert.AreEqual(0, result.sp);
+
+            result.Should().NotBeNull();
+            result.pc.Should().Be(0);
+            result.sp.Should().Be(0);
         }
 
         [Test]
@@ -24,8 +25,8 @@ namespace Test6502
             var cpu = CPU.PowerOn();
             cpu.Reset();
 
-            Assert.AreEqual(0x0100,cpu.pc);
-            Assert.AreEqual(0xFF,cpu.sp);
+            cpu.pc.Should().Be(0x0100);
+            cpu.sp.Should().Be(0xFF);
         }
 
         [Test]
@@ -37,7 +38,10 @@ namespace Test6502
             cpu[0x0100] = 0xFF;
 
             var cycles = 10;
-            Assert.Throws<InvalidOpCodeException>(() => cpu.RunProgram(ref cycles));
+
+            cpu.Invoking(c => c.RunProgram(ref cycles))
+                .Should().Throw<InvalidOpCodeException>()
+                .WithMessage($"Opcode {0xFF:x8} does not exist in 6502!");
         }
     }
 }

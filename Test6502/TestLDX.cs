@@ -1,4 +1,5 @@
 ﻿using CPU6502Emulator;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Test6502
@@ -15,295 +16,120 @@ namespace Test6502
             cpu.Reset();
         }
 
-        [Test]
-        public void LoadImmediatePositive()
+        [TestCase(0x37, (Flags)0, TestName = "LDXI Positive")]
+        [TestCase(0x0, Flags.Z, TestName = "LDXI Zero")]
+        [TestCase(0x80, Flags.N, TestName = "LDXI Negative")]
+        public void LoadImmediate(byte number, Flags expectedFlags)
         {
             cpu[0x0100] = (byte)OpCode.LDXI;
-            cpu[0x0101] = 0x37;
+            cpu[0x0101] = number;
 
             var cycles = 2;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x37, cpu.X);
-            Assert.AreEqual((Flags)0, cpu.flags);
-            Assert.AreEqual(0x0102, cpu.pc);
+
+            cycles.Should().Be(0);
+            cpu.X.Should().Be(number);
+            cpu.flags.Should().Be(expectedFlags);
+            cpu.pc.Should().Be(0x0102);
         }
         
-        [Test]
-        public void LoadImmediateZero()
-        {
-            cpu[0x0100] = (byte)OpCode.LDXI;
-            cpu[0x0101] = 0x0;
-
-            var cycles = 2;
-            cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x0, cpu.X);
-            Assert.AreEqual(Flags.Z, cpu.flags);
-            Assert.AreEqual(0x0102, cpu.pc);
-        }
-        
-        [Test]
-        public void LoadImmediateNegative()
-        {
-            cpu[0x0100] = (byte)OpCode.LDXI;
-            cpu[0x0101] = 0x80;
-
-            var cycles = 2;
-            cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x80, cpu.X);
-            Assert.AreEqual(Flags.N, cpu.flags);
-            Assert.AreEqual(0x0102, cpu.pc);
-        }
-
-        [Test]
-        public void LoadZPPositive()
+        [TestCase(0x37, (Flags)0, TestName = "LDXZ Positive")]
+        [TestCase(0x0, Flags.Z, TestName = "LDXZ Zero")]
+        [TestCase(0x80, Flags.N, TestName = "LDXZ Negative")]
+        public void LoadZ(byte number, Flags expectedFlags)
         {
             cpu[0x0100] = (byte)OpCode.LDXZ;
             cpu[0x0101] = 0x69;
-            cpu[0x0069] = 0x37;
+            cpu[0x0069] = number;
 
             var cycles = 3;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x37, cpu.X);
-            Assert.AreEqual((Flags)0, cpu.flags);
-            Assert.AreEqual(0x0102, cpu.pc);
-        }
-        
-        [Test]
-        public void LoadZPNegative()
-        {
-            cpu[0x0100] = (byte)OpCode.LDXZ;
-            cpu[0x0101] = 0x69;
-            cpu[0x0069] = 0x80;
 
-            var cycles = 3;
-            cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x80, cpu.X);
-            Assert.AreEqual(Flags.N, cpu.flags);
-            Assert.AreEqual(0x0102, cpu.pc);
+            cycles.Should().Be(0);
+            cpu.X.Should().Be(number);
+            cpu.flags.Should().Be(expectedFlags);
+            cpu.pc.Should().Be(0x0102);
         }
         
-        [Test]
-        public void LoadZPZero()
-        {
-            cpu[0x0100] = (byte)OpCode.LDXZ;
-            cpu[0x0101] = 0x69;
-            cpu[0x0069] = 0x0;
-
-            var cycles = 3;
-            cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x0, cpu.X);
-            Assert.AreEqual(Flags.Z, cpu.flags);
-            Assert.AreEqual(0x0102, cpu.pc);
-        }
-        
-        [Test]
-        public void LoadZPYPositive()
+        [TestCase(0x37, (Flags)0, TestName = "LDXZY Positive")]
+        [TestCase(0x0, Flags.Z, TestName = "LDXZY Zero")]
+        [TestCase(0x80, Flags.N, TestName = "LDXZY Negative")]
+        public void LoadZY(byte number, Flags expectedFlags)
         {
             cpu.Y = 1;
+            
             cpu[0x0100] = (byte)OpCode.LDXZY;
             cpu[0x0101] = 0x69;
-            cpu[0x006A] = 0x37;
+            cpu[0x006A] = number;
 
             var cycles = 4;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x37, cpu.X);
-            Assert.AreEqual((Flags)0, cpu.flags);
-            Assert.AreEqual(0x0102, cpu.pc);
-        }
-        
-        [Test]
-        public void LoadZPYNegative()
-        {
-            cpu.Y = 1;
-            cpu[0x0100] = (byte)OpCode.LDXZY;
-            cpu[0x0101] = 0x69;
-            cpu[0x006A] = 0x80;
 
-            var cycles = 4;
-            cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x80, cpu.X);
-            Assert.AreEqual(Flags.N, cpu.flags);
-            Assert.AreEqual(0x0102, cpu.pc);
+            cycles.Should().Be(0);
+            cpu.X.Should().Be(number);
+            cpu.flags.Should().Be(expectedFlags);
+            cpu.pc.Should().Be(0x0102);
         }
         
-        [Test]
-        public void LoadZPYZero()
-        {
-            cpu.Y = 1;
-            cpu[0x0100] = (byte)OpCode.LDXZY;
-            cpu[0x0101] = 0x69;
-            cpu[0x006A] = 0x0;
-
-            var cycles = 4;
-            cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x0, cpu.X);
-            Assert.AreEqual(Flags.Z, cpu.flags);
-            Assert.AreEqual(0x0102, cpu.pc);
-        }
-        
-        [Test]
-        public void LoadAbsPositive()
+        [TestCase(0x37, (Flags)0, TestName = "LDXA Positive")]
+        [TestCase(0x0, Flags.Z, TestName = "LDXA Zero")]
+        [TestCase(0x80, Flags.N, TestName = "LDXA Negative")]
+        public void LoadAbs(byte number, Flags expectedFlags)
         {
             cpu[0x0100] = (byte)OpCode.LDXA;
             cpu[0x0101] = 0x69;
             cpu[0x0102] = 0x37;
-            cpu[0x3769] = 0x37;
+            cpu[0x3769] = number;
 
             var cycles = 4;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x37, cpu.X);
-            Assert.AreEqual((Flags)0, cpu.flags);
-            Assert.AreEqual(0x0103, cpu.pc);
-        }
-        
-        [Test]
-        public void LoadAbsNegative()
-        {
-            cpu[0x0100] = (byte)OpCode.LDXA;
-            cpu[0x0101] = 0x69;
-            cpu[0x0102] = 0x37;
-            cpu[0x3769] = 0x80;
 
-            var cycles = 4;
-            cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x80, cpu.X);
-            Assert.AreEqual(Flags.N, cpu.flags);
-            Assert.AreEqual(0x0103, cpu.pc);
+            cycles.Should().Be(0);
+            cpu.X.Should().Be(number);
+            cpu.flags.Should().Be(expectedFlags);
+            cpu.pc.Should().Be(0x0103);
         }
         
-        [Test]
-        public void LoadAbsZero()
-        {
-            cpu[0x0100] = (byte)OpCode.LDXA;
-            cpu[0x0101] = 0x69;
-            cpu[0x0102] = 0x37;
-            cpu[0x3769] = 0x00;
-
-            var cycles = 4;
-            cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x00, cpu.X);
-            Assert.AreEqual(Flags.Z, cpu.flags);
-            Assert.AreEqual(0x0103, cpu.pc);
-        }
-        
-        [Test]
-        public void LoadAbsYPositive()
+        [TestCase(0x37, (Flags)0, TestName = "LDXAY Positive")]
+        [TestCase(0x0, Flags.Z, TestName = "LDXAY Zero")]
+        [TestCase(0x80, Flags.N, TestName = "LDXAY Negative")]
+        public void LoadAbsY(byte number, Flags expectedFlags)
         {
             cpu.Y = 1;
             
             cpu[0x0100] = (byte)OpCode.LDXAY;
             cpu[0x0101] = 0x69;
             cpu[0x0102] = 0x37;
-            cpu[0x376A] = 0x37;
+            cpu[0x376A] = number;
 
             var cycles = 4;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x37, cpu.X);
-            Assert.AreEqual((Flags)0, cpu.flags);
-            Assert.AreEqual(0x0103, cpu.pc);
+
+            cycles.Should().Be(0);
+            cpu.X.Should().Be(number);
+            cpu.flags.Should().Be(expectedFlags);
+            cpu.pc.Should().Be(0x0103);
         }
         
-        [Test]
-        public void LoadAbsYCrossBoundaryPositive()
+        [TestCase(0x37, (Flags)0, TestName = "LDXAY Positive Cross Boundary")]
+        [TestCase(0x0, Flags.Z, TestName = "LDXAY Zero Cross Boundary")]
+        [TestCase(0x80, Flags.N, TestName = "LDXAY Negative Cross Boundary")]
+        public void LoadAbsYCrossBoundary(byte number, Flags expectedFlags)
         {
             cpu.Y = 1;
             
             cpu[0x0100] = (byte)OpCode.LDXAY;
             cpu[0x0101] = 0xFF;
             cpu[0x0102] = 0x01;
-            cpu[0x0200] = 0x37;
+            cpu[0x0200] = number;
 
             var cycles = 5;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x37, cpu.X);
-            Assert.AreEqual((Flags)0, cpu.flags);
-            Assert.AreEqual(0x0103, cpu.pc);
-        }
-        
-        [Test]
-        public void LoadAbsYNegative()
-        {
-            cpu.Y = 1;
 
-            cpu[0x0100] = (byte)OpCode.LDXAY;
-            cpu[0x0101] = 0x69;
-            cpu[0x0102] = 0x37;
-            cpu[0x376A] = 0x80;
-
-            var cycles = 4;
-            cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x80, cpu.X);
-            Assert.AreEqual(Flags.N, cpu.flags);
-            Assert.AreEqual(0x0103, cpu.pc);
-        }
-        
-        [Test]
-        public void LoadAbsYCrossBoundaryNegative()
-        {
-            cpu.Y = 1;
-            
-            cpu[0x0100] = (byte)OpCode.LDXAY;
-            cpu[0x0101] = 0xFF;
-            cpu[0x0102] = 0x01;
-            cpu[0x0200] = 0x80;
-
-            var cycles = 5;
-            cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x80, cpu.X);
-            Assert.AreEqual(Flags.N, cpu.flags);
-            Assert.AreEqual(0x0103, cpu.pc);
-        }
-        
-        [Test]
-        public void LoadAbsYZero()
-        {
-            cpu.Y = 1;
-
-            cpu[0x0100] = (byte)OpCode.LDXAY;
-            cpu[0x0101] = 0x69;
-            cpu[0x0102] = 0x37;
-            cpu[0x376A] = 0x00;
-
-            var cycles = 4;
-            cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x00, cpu.X);
-            Assert.AreEqual(Flags.Z, cpu.flags);
-            Assert.AreEqual(0x0103, cpu.pc);
-        }
-        
-        [Test]
-        public void LoadAbsYCrossBoundaryZero()
-        {
-            cpu.Y = 1;
-            
-            cpu[0x0100] = (byte)OpCode.LDXAY;
-            cpu[0x0101] = 0xFF;
-            cpu[0x0102] = 0x01;
-            cpu[0x0200] = 0x00;
-
-            var cycles = 5;
-            cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x00, cpu.X);
-            Assert.AreEqual(Flags.Z, cpu.flags);
-            Assert.AreEqual(0x0103, cpu.pc);
+            cycles.Should().Be(0);
+            cpu.X.Should().Be(number);
+            cpu.flags.Should().Be(expectedFlags);
+            cpu.pc.Should().Be(0x0103);
         }
     }
 }

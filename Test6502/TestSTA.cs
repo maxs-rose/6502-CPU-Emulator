@@ -1,4 +1,5 @@
 ﻿using CPU6502Emulator;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Test6502
@@ -28,10 +29,11 @@ namespace Test6502
 
             var cycles = 3;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(value, cpu[zpAddress]);
-            Assert.AreEqual(preFlags, cpu.flags);
-            Assert.AreEqual(0x0102, cpu.pc);
+
+            cycles.Should().Be(0);
+            cpu[zpAddress].Should().Be(value);
+            cpu.flags.Should().Be(preFlags);
+            cpu.pc.Should().Be(0x0102);
         }
         
         [TestCase(0x37, 0x04, 0x1, 0x05)]
@@ -48,10 +50,11 @@ namespace Test6502
             
             var cycles = 4;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(value, cpu[finalLocation]);
-            Assert.AreEqual(preFlags, cpu.flags);
-            Assert.AreEqual(0x0102, cpu.pc);
+
+            cycles.Should().Be(0);
+            cpu[finalLocation].Should().Be(value);
+            cpu.flags.Should().Be(preFlags);
+            cpu.pc.Should().Be(0x0102);
         }
         
         [TestCase(0x37, (ushort)0x01FF)]
@@ -69,10 +72,11 @@ namespace Test6502
 
             var cycles = 4;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(value, cpu[address]);
-            Assert.AreEqual(preFlags, cpu.flags);
-            Assert.AreEqual(0x0103, cpu.pc);
+
+            cycles.Should().Be(0);
+            cpu[address].Should().Be(value);
+            cpu.flags.Should().Be(preFlags);
+            cpu.pc.Should().Be(0x0103);
         }
         
         [TestCase(0x37, (ushort)0x01FF, 1, (ushort)0x0200)] // boundary crossing
@@ -94,10 +98,11 @@ namespace Test6502
 
             var cycles = 5;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(value, cpu[finalLocation]);
-            Assert.AreEqual(preFlags, cpu.flags);
-            Assert.AreEqual(0x0103, cpu.pc);
+
+            cycles.Should().Be(0);
+            cpu[finalLocation].Should().Be(value);
+            cpu.flags.Should().Be(preFlags);
+            cpu.pc.Should().Be(0x0103);
         }
         
         [TestCase(0x37, (ushort)0x01FF, 1, (ushort)0x0200)] // boundary crossing
@@ -119,10 +124,11 @@ namespace Test6502
 
             var cycles = 5;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(value, cpu[finalLocation]);
-            Assert.AreEqual(preFlags, cpu.flags);
-            Assert.AreEqual(0x0103, cpu.pc);
+
+            cycles.Should().Be(0);
+            cpu[finalLocation].Should().Be(value);
+            cpu.flags.Should().Be(preFlags);
+            cpu.pc.Should().Be(0x0103);
         }
 
         [TestCase(0x37, 0xFF, 1, (ushort)0x4600)]
@@ -145,10 +151,11 @@ namespace Test6502
 
             var cycles = 6;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(value, cpu[address]);
-            Assert.AreEqual(preFlags, cpu.flags);
-            Assert.AreEqual(0x0102, cpu.pc);
+
+            cycles.Should().Be(0);
+            cpu[address].Should().Be(value);
+            cpu.flags.Should().Be(preFlags);
+            cpu.pc.Should().Be(0x0102);
         }
 
         [TestCase(0x37, 0x05, 1, (ushort)0x1056, (ushort)0x1057)]
@@ -171,10 +178,11 @@ namespace Test6502
 
             var cycles = 6;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(value, cpu[finalAddress]);
-            Assert.AreEqual(preFlags, cpu.flags);
-            Assert.AreEqual(0x0102, cpu.pc);
+
+            cycles.Should().Be(0);
+            cpu[finalAddress].Should().Be(value);
+            cpu.flags.Should().Be(preFlags);
+            cpu.pc.Should().Be(0x0102);
         }
     }
 }

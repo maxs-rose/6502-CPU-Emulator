@@ -1,4 +1,5 @@
 ﻿using CPU6502Emulator;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Test6502
@@ -16,13 +17,14 @@ namespace Test6502
         }
 
         [TestCase((ushort)0x3969)]
-        // [TestCase((ushort)0x0160)]
-        // [TestCase((ushort)0x1F00)]
-        // [TestCase((ushort)0x6969)]
+        [TestCase((ushort)0x0160)]
+        [TestCase((ushort)0x1F00)]
+        [TestCase((ushort)0x6969)]
         public void RTS(ushort address)
         {
             cpu.flags = (Flags)7;
             var preFlags = cpu.flags;
+            
             cpu[0x0100] = (byte)OpCode.JSR;
             cpu[0x0101] = (byte)address;
             cpu[0x0102] = (byte)(address >> 8);
@@ -30,10 +32,11 @@ namespace Test6502
 
             var cycles = 6 + 6; // JSR + RTS
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x0103, cpu.pc);
-            Assert.AreEqual(0xFF, cpu.sp);
-            Assert.AreEqual(preFlags, cpu.flags);
+
+            cycles.Should().Be(0);
+            cpu.pc.Should().Be(0x0103);
+            cpu.sp.Should().Be(0xFF);
+            cpu.flags.Should().Be(preFlags);
         }
     }
 }

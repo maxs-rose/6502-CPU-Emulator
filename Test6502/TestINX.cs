@@ -1,4 +1,5 @@
 ﻿using CPU6502Emulator;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Test6502
@@ -15,46 +16,21 @@ namespace Test6502
             cpu.Reset();
         }
 
-        [Test]
-        public void IncrementXPositive()
+        [TestCase(1, 2, (Flags)0, TestName = "Increment a value")]
+        [TestCase(0x7F, 0x80, Flags.N, TestName = "Increment to negative value")]
+        [TestCase(0xFF, 0, Flags.Z, TestName = "Increment to 0")]
+        public void IncrementX(byte xValue, byte expectedValue, Flags expectedFlags)
         {
-            cpu.X = 1;
+            cpu.X = xValue;
             cpu[0x0100] = (byte)OpCode.INX;
 
             var cycles = 2;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(2, cpu.X);
-            Assert.AreEqual((Flags)0, cpu.flags);
-            Assert.AreEqual(0x0101, cpu.pc);
-        }
 
-        [Test]
-        public void IncrementXNegative()
-        {
-            cpu.X = 0x7F;
-            cpu[0x0100] = (byte)OpCode.INX;
-
-            var cycles = 2;
-            cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x80, cpu.X);
-            Assert.AreEqual(Flags.N, cpu.flags);
-            Assert.AreEqual(0x0101, cpu.pc);
-        }
-
-        [Test]
-        public void IncrementXZero()
-        {
-            cpu.X = 0xFF;
-            cpu[0x0100] = (byte)OpCode.INX;
-
-            var cycles = 2;
-            cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0, cpu.X);
-            Assert.AreEqual(Flags.Z, cpu.flags);
-            Assert.AreEqual(0x0101, cpu.pc);
+            cycles.Should().Be(0);
+            cpu.X.Should().Be(expectedValue);
+            cpu.flags.Should().Be(expectedFlags);
+            cpu.pc.Should().Be(0x0101);
         }
     }
 }

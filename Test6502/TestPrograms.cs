@@ -1,4 +1,5 @@
 ﻿using CPU6502Emulator;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Test6502
@@ -27,6 +28,7 @@ namespace Test6502
             //      Store the A register @ 0x02 (cpu[0x02] = 2, flags = 0)
             //      Store the Y register @ 0x6938 (cpu[0x6938] = 3, flags = 0)
             //      Return from subroutine (pc = 0x0106)
+            
             // Final Expected State:
             //      A = 2, X = 6, Y = 3
             //      cpu[0x02] = 0x02, cpu[0x6938] = 0x03, cpu[0x6937] = 0xF2
@@ -53,18 +55,18 @@ namespace Test6502
             cpu[0x0106] = (byte) OpCode.INX;
 
             var cycles = 6 + 6 + 2 + 3 + 4 + 6 + 2;
-            
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual((Flags)0, cpu.flags);
-            Assert.AreEqual(0xFF, cpu.sp);
-            Assert.AreEqual(0x0107, cpu.pc);
-            Assert.AreEqual(2, cpu.A);
-            Assert.AreEqual(6, cpu.X);
-            Assert.AreEqual(3, cpu.Y);
-            Assert.AreEqual(0x02, cpu[0x02]);
-            Assert.AreEqual(0x03, cpu[0x6938]);
-            Assert.AreEqual(0xF2, cpu[0x6937]);
+
+            cycles.Should().Be(0);
+            cpu.flags.Should().Be((Flags)0);
+            cpu.sp.Should().Be(0xFF);
+            cpu.pc.Should().Be(0x0107);
+            cpu.A.Should().Be(2);
+            cpu.X.Should().Be(6);
+            cpu.Y.Should().Be(3);
+            cpu[0x0002].Should().Be(0x02);
+            cpu[0x6938].Should().Be(0x03);
+            cpu[0x6937].Should().Be(0xF2);
         }
     }
 }

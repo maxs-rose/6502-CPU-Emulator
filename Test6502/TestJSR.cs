@@ -1,4 +1,5 @@
 ﻿using CPU6502Emulator;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Test6502
@@ -26,12 +27,12 @@ namespace Test6502
 
             var cycles = 6;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x0169, cpu.pc);
-            Assert.AreEqual(0xFD, cpu.sp);
-            Assert.AreEqual(0x02, cpu[(ushort)(cpu.sp + 1)]);
-            Assert.AreEqual(0x01, cpu[(ushort)(cpu.sp + 2)]);
-            Assert.AreEqual(preFlags, cpu.flags);
+            cycles.Should().Be(0);
+            cpu.pc.Should().Be(0x0169);
+            cpu.sp.Should().Be(0xFD);
+            cpu[(ushort)(cpu.sp + 1)].Should().Be(0x02);
+            cpu[(ushort)(cpu.sp + 2)].Should().Be(0x01);
+            cpu.flags.Should().Be(preFlags);
         }
     }
 }

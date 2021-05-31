@@ -1,4 +1,5 @@
 ﻿using CPU6502Emulator;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Test6502
@@ -28,10 +29,11 @@ namespace Test6502
 
             var cycles = 3;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(value, cpu[++cpu.sp]);
-            Assert.AreEqual(0x0101, cpu.pc);
-            Assert.AreEqual(preFlags, cpu.flags);
+
+            cycles.Should().Be(0);
+            cpu[(ushort) (cpu.sp + 1)].Should().Be(value);
+            cpu.flags.Should().Be(preFlags);
+            cpu.pc.Should().Be(0x0101);
         }
 
         [TestCase((Flags)0x37)]
@@ -46,12 +48,13 @@ namespace Test6502
 
             var cycles = 3;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(cpu.flags, (Flags)cpu[++cpu.sp]);
-            Assert.AreEqual(value, (Flags)cpu[cpu.sp]);
-            Assert.AreEqual(value, cpu.flags);
-            Assert.AreEqual(0x0101, cpu.pc);
-            Assert.AreEqual(preFlags, cpu.flags);
+
+            cycles.Should().Be(0);
+            cpu[(ushort) (cpu.sp + 1)].Should().Be((byte)cpu.flags);
+            cpu[(ushort) (cpu.sp + 1)].Should().Be((byte)value);
+            cpu.flags.Should().Be(value);
+            cpu.flags.Should().Be(preFlags);
+            cpu.pc.Should().Be(0x0101);
         }
 
         [TestCase(0x37, (Flags)0)]
@@ -64,10 +67,11 @@ namespace Test6502
 
             var cycles = 4;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(value, cpu.A);
-            Assert.AreEqual(0x0101, cpu.pc);
-            Assert.AreEqual(flags, cpu.flags);
+
+            cycles.Should().Be(0);
+            cpu.A.Should().Be(value);
+            cpu.pc.Should().Be(0x0101);
+            cpu.flags.Should().Be(flags);
         }
 
         [TestCase((Flags)0)]
@@ -84,9 +88,10 @@ namespace Test6502
 
             var cycles = 4;
             cpu.RunProgram(ref cycles);
-            Assert.AreEqual(0, cycles);
-            Assert.AreEqual(0x0101, cpu.pc);
-            Assert.AreEqual(flags, cpu.flags);
+
+            cycles.Should().Be(0);
+            cpu.pc.Should().Be(0x0101);
+            cpu.flags.Should().Be(flags);
         }
     }
 }
